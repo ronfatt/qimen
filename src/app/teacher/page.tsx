@@ -104,7 +104,7 @@ export default function TeacherPortalPage() {
         <div className="space-y-1">
           <div className="font-bold flex items-center space-x-2">
             <span>【老师演示后台】严格安全隔离说明</span>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#111211] text-[#D4F53C] font-bold">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#C92A2A] text-white font-bold">
               演示沙箱
             </span>
           </div>
@@ -119,7 +119,7 @@ export default function TeacherPortalPage() {
         {/* Left Column: Bookings List */}
         <div className="md:col-span-4 space-y-4">
           <div className="flex items-center justify-between pb-2 border-b border-[#E2E1DA]">
-            <h2 className="font-black text-lg text-[#111211]">
+            <h2 className="font-black text-lg text-[#131513]">
               预约申请列表 ({bookings.length})
             </h2>
             <span className="text-[10px] font-mono text-[#767973]">本地数据</span>
@@ -136,8 +136,8 @@ export default function TeacherPortalPage() {
                   onClick={() => setSelectedBooking(item)}
                   className={`w-full text-left p-4 rounded-2xl border transition flex flex-col space-y-1.5 ${
                     isSelected
-                      ? "bg-[#111211] text-white border-[#111211] shadow-md"
-                      : "bg-white border-[#E2E1DA] hover:border-black text-[#111211]"
+                      ? "bg-[#131513] text-white border-[#131513] shadow-md"
+                      : "bg-white border-[#E2E1DA] hover:border-[#C92A2A] text-[#131513]"
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -147,12 +147,12 @@ export default function TeacherPortalPage() {
                     <span
                       className={`text-[9px] font-mono px-2 py-0.5 rounded-full uppercase font-bold ${
                         item.status === "confirmed"
-                          ? "bg-[#D4F53C] text-[#111211]"
+                          ? "bg-[#0C5A43] text-white"
                           : item.status === "cancelled"
                           ? "bg-red-100 text-red-700"
                           : isSelected
-                          ? "bg-neutral-800 text-white"
-                          : "bg-[#F3F2EC] text-[#111211]"
+                          ? "bg-[#2A2D27] text-[#FAF8F2]"
+                          : "bg-[#F3F2EC] text-[#131513]"
                       }`}
                     >
                       {item.status === "confirmed"
@@ -183,7 +183,7 @@ export default function TeacherPortalPage() {
               <div className="clean-card p-6 shadow-card space-y-4 text-xs bg-white">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#EAE9E1]">
                   <div>
-                    <h3 className="font-black text-lg text-[#111211]">
+                    <h3 className="font-black text-lg text-[#131513]">
                       咨询申请详情
                     </h3>
                     <p className="text-[10px] text-[#767973]">
@@ -197,8 +197,8 @@ export default function TeacherPortalPage() {
                       onClick={() => handleUpdateStatus("confirmed")}
                       className={`px-3 py-1.5 rounded-full transition font-semibold ${
                         selectedBooking.status === "confirmed"
-                          ? "bg-[#111211] text-[#D4F53C]"
-                          : "border border-[#D5D4CC] text-[#111211] hover:bg-[#F3F2EC]"
+                          ? "bg-[#0C5A43] text-white"
+                          : "border border-[#D5D4CC] text-[#131513] hover:bg-[#F3F2EC]"
                       }`}
                     >
                       标记已确认
@@ -207,8 +207,8 @@ export default function TeacherPortalPage() {
                       onClick={() => handleUpdateStatus("pending_confirmation")}
                       className={`px-3 py-1.5 rounded-full transition font-semibold ${
                         selectedBooking.status === "pending_confirmation"
-                          ? "bg-[#D4F53C] text-[#111211]"
-                          : "border border-[#D5D4CC] text-[#111211] hover:bg-[#F3F2EC]"
+                          ? "bg-[#C92A2A] text-white"
+                          : "border border-[#D5D4CC] text-[#131513] hover:bg-[#F3F2EC]"
                       }`}
                     >
                       标记待确认
@@ -297,8 +297,8 @@ export default function TeacherPortalPage() {
                         </div>
                       </div>
 
-                      <div className="p-4 rounded-2xl bg-[#111211] text-white space-y-1">
-                        <span className="text-[10px] text-[#D4F53C] font-bold uppercase block">核心内在矛盾（命盘特征）：</span>
+                      <div className="p-4 rounded-2xl bg-[#131513] text-white space-y-1 border border-[#2A2D27]">
+                        <span className="text-[10px] text-[#D4AF37] font-bold uppercase block">核心内在矛盾（命盘特征）：</span>
                         <p className="italic leading-relaxed">
                           “{authorizedReport.coreContradiction}”
                         </p>
@@ -306,7 +306,7 @@ export default function TeacherPortalPage() {
 
                       {authorizedReport.userFeedback && (
                         <div className="p-3.5 rounded-2xl bg-[#FAF9F5] border border-[#E2E1DA] space-y-1">
-                          <span className="font-bold text-[#111211] text-[11px] block">
+                          <span className="font-bold text-[#131513] text-[11px] block">
                             客户反馈（明确标记：结合你补充的经历）:
                           </span>
                           <p className="text-[#353833]">
@@ -330,12 +330,12 @@ export default function TeacherPortalPage() {
                 className="clean-card p-6 shadow-card space-y-5 text-xs bg-white"
               >
                 <div className="flex items-center justify-between pb-3 border-b border-[#EAE9E1]">
-                  <h3 className="font-black text-lg text-[#111211]">
+                  <h3 className="font-black text-lg text-[#131513]">
                     老师会谈工作台 (笔记与摘要)
                   </h3>
                   {noteSavedToast && (
-                    <span className="text-[11px] text-[#111211] font-bold flex items-center space-x-1 animate-fadeIn">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#111211]" />
+                    <span className="text-[11px] text-[#0C5A43] font-bold flex items-center space-x-1 animate-fadeIn">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#0C5A43]" />
                       <span>已保存记录</span>
                     </span>
                   )}
@@ -352,7 +352,7 @@ export default function TeacherPortalPage() {
                     value={privateNotes}
                     onChange={(e) => setPrivateNotes(e.target.value)}
                     placeholder="记录当事人的阻抗点、真实防线动机、个人观察直觉、后续随访建议等私密备忘..."
-                    className="w-full p-3 rounded-xl border border-red-200 bg-white text-[#111211] focus:outline-none focus:border-red-500 leading-relaxed text-xs"
+                    className="w-full p-3 rounded-xl border border-red-200 bg-white text-[#131513] focus:outline-none focus:border-red-500 leading-relaxed text-xs"
                   />
                   <p className="text-[10px] text-red-600">
                     * 严格数据隔离：绝不通过公开 API 或客户报告页面暴露。
@@ -360,9 +360,9 @@ export default function TeacherPortalPage() {
                 </div>
 
                 {/* 2. 客户可见摘要 */}
-                <div className="space-y-2 p-4 rounded-2xl bg-[#D4F53C]/20 border border-[#D4F53C]">
-                  <div className="flex items-center space-x-2 text-[#111211] font-bold text-xs">
-                    <Eye className="w-3.5 h-3.5 text-[#111211]" />
+                <div className="space-y-2 p-4 rounded-2xl bg-[#0C5A43]/10 border border-[#0C5A43]/30">
+                  <div className="flex items-center space-x-2 text-[#0C5A43] font-bold text-xs">
+                    <Eye className="w-3.5 h-3.5 text-[#0C5A43]" />
                     <span>发给客户的解读摘要 (会后同步给当事人)</span>
                   </div>
                   <textarea
@@ -370,7 +370,7 @@ export default function TeacherPortalPage() {
                     value={clientSummary}
                     onChange={(e) => setClientSummary(e.target.value)}
                     placeholder="提炼会谈中达成共识的核心模式、认知调整锚点以及建议尝试的微小行动..."
-                    className="w-full p-3 rounded-xl border border-[#C2E42B] bg-white text-[#111211] focus:outline-none focus:border-black leading-relaxed text-xs"
+                    className="w-full p-3 rounded-xl border border-[#0C5A43]/30 bg-white text-[#131513] focus:outline-none focus:border-[#0C5A43] leading-relaxed text-xs"
                   />
                   <p className="text-[10px] text-[#44483C]">
                     * 会谈结束后同步给当事人用于长期复盘。
@@ -380,7 +380,7 @@ export default function TeacherPortalPage() {
                 <div className="flex justify-end pt-2">
                   <button
                     type="submit"
-                    className="btn-dark inline-flex items-center space-x-2 px-7 py-3 text-xs font-bold"
+                    className="btn-cinnabar inline-flex items-center space-x-2 px-7 py-3 text-xs font-bold"
                   >
                     <Save className="w-3.5 h-3.5" />
                     <span>保存工作记录</span>

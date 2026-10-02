@@ -132,14 +132,14 @@ export default function MyReportsPage() {
           <div className="flex justify-center gap-3 pt-2">
             <Link
               href="/assessment"
-              className="btn-lime inline-flex items-center space-x-1.5 px-6 py-3 text-xs font-bold"
+              className="btn-cinnabar inline-flex items-center space-x-1.5 px-6 py-3 text-xs font-bold"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>开始免费分析</span>
             </Link>
             <Link
               href="/report/sample"
-              className="px-6 py-3 rounded-full border border-[#D5D4CC] text-xs font-bold text-[#111211] hover:bg-[#FAF9F5] transition"
+              className="px-6 py-3 rounded-full border border-[#D5D4CC] text-xs font-bold text-[#131513] hover:bg-[#FAF9F5] transition"
             >
               查看示例报告
             </Link>

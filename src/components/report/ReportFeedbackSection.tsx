@@ -40,11 +40,11 @@ export default function ReportFeedbackSection({
   return (
     <div className="clean-card p-6 sm:p-7 shadow-card space-y-4 bg-white">
       <div className="flex items-center space-x-2">
-        <div className="w-8 h-8 rounded-full bg-[#D4F53C] flex items-center justify-center text-[#111211]">
+        <div className="w-8 h-8 rounded-full bg-[#C92A2A] flex items-center justify-center text-white shadow-sm">
           <MessageSquareHeart className="w-4 h-4" />
         </div>
         <div>
-          <h3 className="font-black text-base text-[#111211]">
+          <h3 className="font-black text-base text-[#131513]">
             这份梳理对你有启发吗？
           </h3>
           <p className="text-[11px] text-[#767973]">
@@ -55,18 +55,18 @@ export default function ReportFeedbackSection({
 
       {submitted ? (
         <div className="p-4 rounded-2xl bg-[#F6F5ED] border border-[#E4E3DB] space-y-2 animate-fadeIn text-xs">
-          <div className="flex items-center space-x-2 text-[#111211] font-bold">
-            <CheckCircle2 className="w-4 h-4 text-[#111211]" />
+          <div className="flex items-center space-x-2 text-[#131513] font-bold">
+            <CheckCircle2 className="w-4 h-4 text-[#C92A2A]" />
             <span>已记录你的个人核对反馈</span>
           </div>
           <p className="text-[#454840] leading-relaxed">
             感谢你的坦诚记录。如果后续在老师深度咨询中探讨此报告，系统将明确标记
-            <strong className="text-[#111211]">「结合你补充的经历」</strong>
+            <strong className="text-[#131513]">「结合你补充的经历」</strong>
             ，绝不会将这些内容伪装为仅凭命盘得到的结论。
           </p>
           <div className="pt-2 text-[11px] text-[#767973]">
             你的评价：
-            <span className="font-bold text-[#111211]">
+            <span className="font-bold text-[#C92A2A]">
               {closeness === "close" ? "很贴近" : closeness === "partial" ? "部分贴近" : "不贴近"}
             </span>
             {note && ` · 补充文字：${note}`}
@@ -86,8 +86,8 @@ export default function ReportFeedbackSection({
                 onClick={() => setCloseness(opt.key as any)}
                 className={`py-3 px-3 rounded-2xl border text-xs font-bold transition ${
                   closeness === opt.key
-                    ? "bg-[#D4F53C] border-[#BFE024] text-[#111211] shadow-sm"
-                    : "border-[#E2E1DA] text-[#111211] bg-[#FAF9F5] hover:border-black"
+                    ? "bg-[#C92A2A] border-[#C92A2A] text-white shadow-sm"
+                    : "border-[#E2E1DA] text-[#131513] bg-[#FAF9F5] hover:border-[#C92A2A]"
                 }`}
               >
                 {opt.label}
@@ -101,7 +101,7 @@ export default function ReportFeedbackSection({
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="（可选）补充你的真实生活经历或感受，帮助后续更聚焦..."
-              className="w-full text-xs p-3.5 rounded-2xl border border-[#E2E1DA] bg-[#FAF9F5] text-[#111211] placeholder:text-[#8C9087] focus:outline-none focus:border-black transition"
+              className="w-full text-xs p-3.5 rounded-2xl border border-[#E2E1DA] bg-[#FAF9F5] text-[#131513] placeholder:text-[#8C9087] focus:outline-none focus:border-[#C92A2A] transition"
               maxLength={200}
             />
           </div>
@@ -113,7 +113,7 @@ export default function ReportFeedbackSection({
             <button
               type="submit"
               disabled={!closeness}
-              className="btn-dark inline-flex items-center space-x-1.5 px-6 py-2.5 text-xs font-bold disabled:opacity-40 disabled:cursor-not-allowed"
+              className="btn-cinnabar inline-flex items-center space-x-1.5 px-6 py-2.5 text-xs font-bold disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <Send className="w-3 h-3" />
               <span>提交反馈</span>

@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN">
-      <body className="min-h-screen bg-[#F3F2EC] text-[#111211] flex flex-col antialiased selection:bg-[#D4F53C] selection:text-[#111211]">
+      <body className="min-h-screen bg-[#FAF8F2] text-[#131513] flex flex-col antialiased selection:bg-[#C92A2A] selection:text-white">
         <Header />
         <main className="flex-1 w-full max-w-6xl mx-auto px-5 sm:px-8 py-4 sm:py-6">
           {children}

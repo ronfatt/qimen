@@ -36,13 +36,13 @@ export default function TeachersPage() {
           >
             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
               <div className="flex items-start space-x-4">
-                <div className="w-16 h-16 rounded-2xl bg-[#111211] text-[#D4F53C] flex items-center justify-center font-black text-2xl flex-shrink-0 shadow-sm">
+                <div className="w-16 h-16 rounded-2xl bg-[#C92A2A] text-white flex items-center justify-center font-serif font-black text-2xl flex-shrink-0 shadow-md border border-[#9B1C1C]">
                   {teacher.name.slice(0, 1)}
                 </div>
 
                 <div className="space-y-1">
                   <div className="flex items-center space-x-2.5">
-                    <h3 className="text-xl font-black text-[#111211]">
+                    <h3 className="text-xl font-black text-[#131513]">
                       {teacher.name}
                     </h3>
                     {teacher.isSample && (
@@ -57,7 +57,7 @@ export default function TeachersPage() {
 
               <div className="text-left sm:text-right pt-2 sm:pt-0 border-t sm:border-t-0 border-[#F0EFEA]">
                 <span className="text-[10px] text-[#767973] block uppercase font-bold">会谈单次</span>
-                <div className="text-2xl font-black text-[#111211]">
+                <div className="text-2xl font-black text-[#131513]">
                   RM {teacher.priceRM}
                 </div>
               </div>
@@ -75,7 +75,7 @@ export default function TeachersPage() {
                 {teacher.specialties.map((spec) => (
                   <span
                     key={spec}
-                    className="px-3 py-1 rounded-full bg-[#F3F2EC] text-[#111211] text-[11px] font-semibold"
+                    className="px-3 py-1 rounded-full bg-[#F3F2EC] text-[#131513] text-[11px] font-semibold"
                   >
                     {spec}
                   </span>
@@ -84,17 +84,17 @@ export default function TeachersPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-[11px] text-[#5C6057]">
                 <div className="flex items-center space-x-2">
-                  <Globe2 className="w-3.5 h-3.5 text-[#111211]" />
+                  <Globe2 className="w-3.5 h-3.5 text-[#131513]" />
                   <span>语言：{teacher.languages.join(" / ")}</span>
                 </div>
 
                 <div className="flex items-center space-x-2">
-                  <Video className="w-3.5 h-3.5 text-[#111211]" />
+                  <Video className="w-3.5 h-3.5 text-[#131513]" />
                   <span>方式：{teacher.consultationModes.join(" · ")}</span>
                 </div>
 
                 <div className="flex items-center space-x-2">
-                  <Clock className="w-3.5 h-3.5 text-[#111211]" />
+                  <Clock className="w-3.5 h-3.5 text-[#131513]" />
                   <span>单次：{teacher.durationMinutes} 分钟</span>
                 </div>
               </div>
@@ -104,14 +104,14 @@ export default function TeachersPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-end gap-3 pt-2 border-t border-[#F0EFEA]">
               <Link
                 href={`/teachers/${teacher.id}`}
-                className="px-6 py-3 rounded-full border border-[#D5D4CC] text-xs font-bold text-[#111211] hover:bg-[#F3F2EC] transition text-center"
+                className="px-6 py-3 rounded-full border border-[#D5D4CC] text-xs font-bold text-[#131513] hover:bg-[#FAF9F5] transition text-center"
               >
                 查看详情与会谈流程
               </Link>
 
               <Link
                 href={`/booking/${teacher.id}`}
-                className="btn-lime inline-flex items-center justify-center space-x-1.5 px-7 py-3 text-xs font-bold"
+                className="btn-cinnabar inline-flex items-center justify-center space-x-1.5 px-7 py-3 text-xs font-bold"
               >
                 <span>预约深入解读</span>
                 <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />

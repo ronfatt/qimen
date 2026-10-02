@@ -47,7 +47,7 @@ export default function TeacherDetailPage({
       <div className="clean-card p-6 sm:p-8 shadow-card space-y-6 bg-white">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 pb-6 border-b border-[#EAE9E1]">
           <div className="flex items-center space-x-5">
-            <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-3xl bg-[#111211] text-[#D4F53C] flex items-center justify-center font-black text-3xl shadow-sm flex-shrink-0">
+            <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-3xl bg-[#C92A2A] text-white flex items-center justify-center font-serif font-black text-3xl shadow-md border border-[#9B1C1C] flex-shrink-0">
               {teacher.name.slice(0, 1)}
             </div>
             <div className="space-y-1">
@@ -169,7 +169,7 @@ export default function TeacherDetailPage({
                 </div>
                 <Link
                   href={`/booking/${teacher.id}?serviceId=${svc.id}`}
-                  className="btn-lime px-6 py-2.5 text-xs font-bold"
+                  className="btn-cinnabar px-6 py-2.5 text-xs font-bold"
                 >
                   预约此方案
                 </Link>
@@ -180,7 +180,7 @@ export default function TeacherDetailPage({
       </div>
 
       {/* WhatsApp & Booking CTA */}
-      <div className="rounded-3xl bg-[#111211] text-white p-7 sm:p-9 shadow-2xl space-y-5">
+      <div className="rounded-3xl bg-[#131513] text-white p-7 sm:p-9 shadow-2xl space-y-5 border border-[#2D3028]">
         <div className="space-y-1">
           <h2 className="text-xl font-black text-white">
             预约与会前沟通
@@ -193,7 +193,7 @@ export default function TeacherDetailPage({
         <div className="flex flex-col sm:flex-row gap-4 pt-1">
           <Link
             href={`/booking/${teacher.id}`}
-            className="btn-lime flex-1 inline-flex items-center justify-center space-x-2 py-3.5 text-xs font-bold"
+            className="btn-cinnabar flex-1 inline-flex items-center justify-center space-x-2 py-3.5 text-xs font-bold shadow-lg"
           >
             <span>立即提交预约申请</span>
             <ArrowRight className="w-3.5 h-3.5" />

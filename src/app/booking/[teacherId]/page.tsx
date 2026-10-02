@@ -119,11 +119,11 @@ export default function BookingPage() {
           <div className="clean-card p-6 shadow-card space-y-4 bg-white">
             <div className="flex items-center justify-between pb-3 border-b border-[#EAE9E1]">
               <div className="flex items-center space-x-3.5">
-                <div className="w-12 h-12 rounded-2xl bg-[#111211] text-[#D4F53C] flex items-center justify-center font-black text-xl shadow-sm">
+                <div className="w-12 h-12 rounded-2xl bg-[#C92A2A] text-white flex items-center justify-center font-serif font-black text-xl shadow-md border border-[#9B1C1C]">
                   {teacher.name.slice(0, 1)}
                 </div>
                 <div>
-                  <h2 className="font-bold text-base text-[#111211]">
+                  <h2 className="font-bold text-base text-[#131513]">
                     预约咨询：{teacher.name}
                   </h2>
                   <p className="text-[11px] text-[#767973]">{teacher.title}</p>
@@ -136,7 +136,7 @@ export default function BookingPage() {
 
             {/* Select Service */}
             <div className="space-y-2.5">
-              <label className="text-xs font-bold text-[#111211] block">
+              <label className="text-xs font-bold text-[#131513] block">
                 选择服务方案
               </label>
               <div className="space-y-2">
@@ -145,8 +145,8 @@ export default function BookingPage() {
                     key={svc.id}
                     className={`flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition ${
                       selectedServiceId === svc.id
-                        ? "bg-[#D4F53C]/20 border-[#D4F53C] ring-1 ring-[#D4F53C]"
-                        : "bg-[#FAF9F5] border-[#E2E1DA] hover:border-black"
+                        ? "bg-[#C92A2A]/10 border-[#C92A2A] ring-1 ring-[#C92A2A]"
+                        : "bg-[#FAF9F5] border-[#E2E1DA] hover:border-[#C92A2A]"
                     }`}
                   >
                     <div className="flex items-center space-x-3">
@@ -334,7 +334,7 @@ export default function BookingPage() {
           {/* Submit CTA */}
           <button
             type="submit"
-            className="btn-lime w-full py-4 text-xs font-bold uppercase flex items-center justify-center space-x-2"
+            className="btn-cinnabar w-full py-4 text-xs font-bold uppercase flex items-center justify-center space-x-2 shadow-lg"
           >
             <span>提交预约申请</span>
             <ArrowRight className="w-4 h-4" />
@@ -345,10 +345,10 @@ export default function BookingPage() {
         <div className="clean-card p-6 sm:p-10 shadow-card space-y-6 bg-white animate-fadeIn">
           {/* Status Header */}
           <div className="text-center space-y-2 pb-5 border-b border-[#EAE9E1]">
-            <div className="w-14 h-14 rounded-full bg-[#D4F53C] flex items-center justify-center text-[#111211] mx-auto">
-              <Clock className="w-7 h-7 text-[#111211]" />
+            <div className="w-14 h-14 rounded-full bg-[#C92A2A] flex items-center justify-center text-white mx-auto shadow-md">
+              <Clock className="w-7 h-7 text-white" />
             </div>
-            <h2 className="text-2xl font-black text-[#111211]">
+            <h2 className="text-2xl font-black text-[#131513]">
               预约申请已提交，等待确认
             </h2>
             <div className="inline-block px-3.5 py-1 rounded-full bg-[#F3F2EC] text-xs text-[#111211] font-bold">
