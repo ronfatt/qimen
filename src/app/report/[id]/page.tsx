@@ -3,17 +3,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { AnalysisReport, ReportFeedback, TendencyItem } from "@/types";
+import { AnalysisReport, ReportFeedback } from "@/types";
 import { getCanonicalSampleReport } from "@/services/analysis/sample-reports";
 import { LocalReportStore } from "@/services/storage/local-report-store";
 import NinePalaceGrid from "@/components/chart/NinePalaceGrid";
 import ReportFeedbackSection from "@/components/report/ReportFeedbackSection";
 import {
-  Compass,
   Bookmark,
   BookmarkCheck,
   Share2,
-  Trash2,
   ChevronDown,
   ChevronUp,
   Sparkles,
@@ -26,13 +24,12 @@ import {
   Calendar,
   Clock,
   User,
-  MapPin,
   AlertCircle,
+  ArrowUpRight,
 } from "lucide-react";
 
 export default function ReportDetailPage() {
   const params = useParams();
-  const router = useRouter();
   const reportId = params?.id as string;
 
   const [report, setReport] = useState<AnalysisReport | null>(null);
@@ -54,7 +51,6 @@ export default function ReportDetailPage() {
           setReport(stored);
           setIsSaved(true);
         } else {
-          // 若刷新后无数据，回退到示例报告并友好提示
           const fallback = await getCanonicalSampleReport();
           setReport({
             ...fallback,
@@ -73,11 +69,11 @@ export default function ReportDetailPage() {
     if (isSaved) {
       LocalReportStore.deleteReport(report.id);
       setIsSaved(false);
-      triggerToast("已从本设备移除此报告");
+      triggerToast("已从当前设备移除此报告");
     } else {
       LocalReportStore.saveReport(report);
       setIsSaved(true);
-      triggerToast("已保存在本设备，可随时在「已存报告」查看");
+      triggerToast("已保存在本设备，可随时在「档案库」查阅");
     }
   };
 
@@ -105,9 +101,11 @@ export default function ReportDetailPage() {
 
   if (loading || !report) {
     return (
-      <div className="py-20 text-center space-y-3">
-        <div className="w-8 h-8 rounded-full border-2 border-moss-800 border-t-transparent animate-spin mx-auto" />
-        <p className="text-xs text-ink-500">正在调取分析报告...</p>
+      <div className="py-24 text-center space-y-4">
+        <div className="w-10 h-10 rounded-full border-2 border-editorial-950 border-t-gold-500 animate-spin mx-auto" />
+        <p className="font-mono text-xs uppercase text-editorial-500 tracking-widest">
+          CURATING REPORT DOSSIER...
+        </p>
       </div>
     );
   }
@@ -115,173 +113,184 @@ export default function ReportDetailPage() {
   const { birthProfile, chartResult } = report;
 
   return (
-    <div className="space-y-8 pb-24 max-w-2xl mx-auto">
-      {/* Toast Notification */}
+    <div className="space-y-10 pb-28 max-w-3xl mx-auto">
+      {/* Toast Alert */}
       {saveToast && (
-        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 bg-moss-900 text-warm-50 text-xs px-4 py-2.5 rounded-full shadow-floating flex items-center space-x-2 animate-fadeIn">
-          <CheckCircle className="w-3.5 h-3.5 text-champagne-300 flex-shrink-0" />
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-editorial-950 text-gold-200 text-xs px-5 py-3 rounded-full shadow-haute border border-editorial-800 flex items-center space-x-2 animate-fadeIn font-mono">
+          <CheckCircle className="w-3.5 h-3.5 text-gold-400 flex-shrink-0" />
           <span>{saveToast}</span>
         </div>
       )}
 
       {/* Top Banner if Sample */}
       {report.isSample && (
-        <div className="p-3.5 rounded-xl bg-champagne-100/70 border border-champagne-300 text-xs text-champagne-900 flex items-start space-x-2.5 animate-fadeIn">
-          <AlertCircle className="w-4 h-4 text-champagne-700 flex-shrink-0 mt-0.5" />
+        <div className="p-4 rounded-2xl bg-gold-50 border border-gold-200 text-xs text-gold-900 flex items-start space-x-3 animate-fadeIn">
+          <AlertCircle className="w-4 h-4 text-gold-700 flex-shrink-0 mt-0.5" />
           <div className="space-y-0.5">
-            <span className="font-semibold block">【示例报告标注】</span>
-            <p className="text-[11px] leading-relaxed">
+            <span className="font-bold font-mono text-[11px] uppercase block tracking-wider">
+              [ SAMPLE REPORT EXHIBIT / 示例报告标注 ]
+            </span>
+            <p className="text-[11px] leading-relaxed text-gold-950">
               {report.sampleLabel || "示例命盘，非根据你的资料动态计算。仅供展示排盘体系与解读结构。"}
             </p>
           </div>
         </div>
       )}
 
-      {/* Action Header: Save & Share */}
-      <div className="flex items-center justify-between pt-2">
-        <div className="flex items-center space-x-2 text-xs text-ink-500">
-          <span className="px-2 py-0.5 rounded bg-warm-200 text-moss-900 font-medium">
-            个人专属报告
+      {/* Editorial Header Controls */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-canvas-200 pb-4">
+        <div className="space-y-0.5">
+          <div className="editorial-tag text-gold-700">PERSONAL METAPHYSICAL DOSSIER</div>
+          <h1 className="font-serif text-2xl sm:text-3xl text-editorial-950 font-normal">
+            {birthProfile.callsign ? `${birthProfile.callsign} 的认知镜像报告` : "个人专属命盘分析报告"}
+          </h1>
+          <span className="text-[10px] font-mono text-editorial-400 uppercase">
+            ARCHIVED ON {report.createdAt} · ID: {report.id}
           </span>
-          <span>生成于 {report.createdAt}</span>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2.5 self-start sm:self-auto">
           <button
             onClick={handleToggleSave}
-            className={`inline-flex items-center space-x-1 text-xs px-3 py-1.5 rounded-xl border transition ${
+            className={`inline-flex items-center space-x-1.5 text-xs font-mono uppercase px-4 py-2 rounded-full border transition ${
               isSaved
-                ? "bg-moss-50 border-moss-600 text-moss-800 font-medium"
-                : "bg-white border-warm-200 text-ink-700 hover:bg-warm-100"
+                ? "bg-editorial-950 border-editorial-950 text-gold-200 font-bold"
+                : "bg-white border-canvas-300 text-editorial-700 hover:border-gold-600"
             }`}
           >
             {isSaved ? (
               <>
-                <BookmarkCheck className="w-3.5 h-3.5 text-moss-700" />
-                <span>已保存在此设备</span>
+                <BookmarkCheck className="w-3.5 h-3.5 text-gold-400" />
+                <span>已存本设备</span>
               </>
             ) : (
               <>
-                <Bookmark className="w-3.5 h-3.5 text-ink-500" />
-                <span>保存在此设备</span>
+                <Bookmark className="w-3.5 h-3.5 text-editorial-400" />
+                <span>存至此设备</span>
               </>
             )}
           </button>
 
           <button
             onClick={handleShare}
-            className="p-1.5 rounded-xl border border-warm-200 bg-white text-ink-600 hover:bg-warm-100 transition"
+            className="w-9 h-9 rounded-full border border-canvas-300 bg-white flex items-center justify-center text-editorial-700 hover:border-gold-600 transition"
             title="安全分享"
           >
-            <Share2 className="w-4 h-4" />
+            <Share2 className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
 
-      {/* A. 个人资料摘要 */}
-      <section className="bg-white rounded-2xl border border-[#E5E0D2] p-5 sm:p-6 shadow-card space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-warm-200">
-          <div className="flex items-center space-x-2">
-            <User className="w-4 h-4 text-moss-800" />
-            <h2 className="font-serif font-bold text-base text-moss-900">
-              A. 个人资料与排盘摘要
+      {/* A. 个人资料摘要 (Architectural Grid) */}
+      <section className="gallery-card rounded-3xl p-6 sm:p-7 shadow-haute space-y-5 border border-canvas-200">
+        <div className="flex items-center justify-between pb-3 border-b border-canvas-200">
+          <div className="space-y-0.5">
+            <span className="editorial-tag text-gold-700">SECTION A · DOSSIER SUMMARY</span>
+            <h2 className="font-serif font-bold text-lg text-editorial-950">
+              个人资料与排盘摘要
             </h2>
           </div>
-          <span className="text-[11px] text-ink-400">
+          <span className="font-mono text-[10px] text-editorial-500 uppercase">
             {chartResult.engineMetadata.school}
           </span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-          <div className="p-2.5 rounded-xl bg-warm-100/70 border border-warm-200">
-            <span className="text-[10px] text-ink-400 block mb-0.5">称呼</span>
-            <span className="font-medium text-ink-800">
+          <div className="p-3 rounded-2xl bg-canvas-100/60 border border-canvas-200">
+            <span className="font-mono text-[10px] text-editorial-400 uppercase block mb-1">CALLSIGN / 称呼</span>
+            <span className="font-semibold text-editorial-950">
               {birthProfile.callsign || "未具名"}
             </span>
           </div>
 
-          <div className="p-2.5 rounded-xl bg-warm-100/70 border border-warm-200">
-            <span className="text-[10px] text-ink-400 block mb-0.5">公历出生日期</span>
-            <span className="font-semibold text-moss-900">
+          <div className="p-3 rounded-2xl bg-canvas-100/60 border border-canvas-200">
+            <span className="font-mono text-[10px] text-editorial-400 uppercase block mb-1">SOLAR DATE / 日期</span>
+            <span className="font-bold text-editorial-950 font-serif">
               {birthProfile.solarDate}
             </span>
           </div>
 
-          <div className="p-2.5 rounded-xl bg-warm-100/70 border border-warm-200">
-            <span className="text-[10px] text-ink-400 block mb-0.5">出生时辰</span>
-            <span className="font-semibold text-moss-900">
-              {birthProfile.isTimeUnknown ? "时间不确定" : `${birthProfile.solarTime} (24H)`}
+          <div className="p-3 rounded-2xl bg-canvas-100/60 border border-canvas-200">
+            <span className="font-mono text-[10px] text-editorial-400 uppercase block mb-1">TIME (24H) / 时辰</span>
+            <span className="font-bold text-editorial-950 font-serif">
+              {birthProfile.isTimeUnknown ? "时间未定" : `${birthProfile.solarTime}`}
             </span>
           </div>
 
-          <div className="p-2.5 rounded-xl bg-warm-100/70 border border-warm-200">
-            <span className="text-[10px] text-ink-400 block mb-0.5">出生城市及时区</span>
-            <span className="font-medium text-ink-800 truncate block">
+          <div className="p-3 rounded-2xl bg-canvas-100/60 border border-canvas-200">
+            <span className="font-mono text-[10px] text-editorial-400 uppercase block mb-1">CITY / 城市时区</span>
+            <span className="font-medium text-editorial-950 truncate block">
               {birthProfile.city} · {birthProfile.timezone.split(" ")[0]}
             </span>
           </div>
         </div>
 
-        <div className="p-3 rounded-xl bg-[#FAF9F5] border border-warm-200 text-[11px] text-ink-500 space-y-1">
-          <div className="flex items-center justify-between">
-            <span>四柱干支：{chartResult.fourPillars.year}年 {chartResult.fourPillars.month}月 {chartResult.fourPillars.day}日 {chartResult.fourPillars.hour}时</span>
-            <span className="font-medium text-moss-800">{chartResult.juNumber}</span>
+        <div className="p-4 rounded-2xl bg-white border border-canvas-200 text-[11px] font-mono text-editorial-600 space-y-1">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <span>四柱：{chartResult.fourPillars.year}年 {chartResult.fourPillars.month}月 {chartResult.fourPillars.day}日 {chartResult.fourPillars.hour}时</span>
+            <span className="font-bold text-gold-800">{chartResult.juNumber}</span>
           </div>
-          <div>时空校正说明：{chartResult.engineMetadata.timeAdjustmentNote}</div>
+          <div className="text-[10px] text-editorial-400">
+            时空校正：{chartResult.engineMetadata.timeAdjustmentNote}
+          </div>
         </div>
       </section>
 
-      {/* B. 一句话核心概括（表达内在矛盾） */}
-      <section className="bg-moss-900 text-warm-50 rounded-2xl p-6 sm:p-7 shadow-floating relative overflow-hidden space-y-3">
-        <div className="inline-flex items-center space-x-1.5 text-champagne-300 text-xs font-medium">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>B. 核心心智张力</span>
+      {/* B. 一句话核心概括 (Haute Couture Obsidian Card) */}
+      <section className="bg-editorial-950 text-gold-100 rounded-3xl p-7 sm:p-10 shadow-haute relative overflow-hidden space-y-4 border border-editorial-800">
+        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gold-600/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="editorial-tag text-gold-400">
+          SECTION B · CORE COGNITIVE TENSION / 内在张力
         </div>
 
-        <h3 className="font-serif text-lg sm:text-xl font-bold leading-relaxed tracking-wide text-[#FBFBF9]">
+        <h3 className="font-serif text-xl sm:text-2xl text-canvas-pure font-normal leading-relaxed tracking-wide">
           “{report.coreContradiction}”
         </h3>
 
-        <p className="text-xs text-warm-200/80 leading-relaxed pt-1">
-          这并非宿命的缺陷，而是你为了适应成长环境所发展出的一套高敏捷应对策略。当环境变迁时，原本保护你的策略可能会转变为内在消耗。
+        <p className="text-xs text-canvas-300 leading-relaxed max-w-2xl pt-1">
+          这并非命运的瑕疵，而是你在成长中发展出的一套高适应策略。随着生活周期的演进，昔日的铠甲有时会在新阶段带来不必要的耗能。
         </p>
       </section>
 
       {/* C. 三个核心倾向 */}
-      <section className="space-y-4">
-        <div className="flex items-center space-x-2">
-          <Layers className="w-4 h-4 text-moss-800" />
-          <h2 className="font-serif font-bold text-base text-moss-900">
-            C. 三个核心倾向与生活投射
-          </h2>
+      <section className="space-y-5">
+        <div className="flex items-center justify-between border-b border-canvas-200 pb-3">
+          <div className="space-y-0.5">
+            <span className="editorial-tag text-gold-700">SECTION C · BEHAVIORAL TENDENCIES</span>
+            <h2 className="font-serif font-bold text-xl text-editorial-950">
+              三个核心倾向与生活投射
+            </h2>
+          </div>
+          <span className="font-mono text-xs text-editorial-400">[ 01 / 02 / 03 ]</span>
         </div>
 
-        <div className="space-y-3.5">
+        <div className="space-y-4">
           {report.coreTendencies.map((tendency, idx) => {
             const isExpanded = expandedTendencies[tendency.id];
             return (
               <div
                 key={tendency.id}
-                className="bg-white rounded-2xl border border-[#E5E0D2] p-5 shadow-card space-y-3"
+                className="gallery-card rounded-3xl p-6 sm:p-7 shadow-haute space-y-4 border border-canvas-200"
               >
-                <div className="flex items-start space-x-3">
-                  <span className="w-6 h-6 rounded-full bg-moss-50 border border-moss-200 text-moss-800 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
-                    {idx + 1}
+                <div className="flex items-start space-x-4">
+                  <span className="font-mono text-sm font-bold text-gold-700 border-b border-gold-400 pb-0.5">
+                    0{idx + 1}
                   </span>
                   <div className="space-y-1.5 flex-1">
-                    <h4 className="font-serif font-bold text-sm sm:text-base text-moss-900">
+                    <h4 className="font-serif font-bold text-base sm:text-lg text-editorial-950">
                       {tendency.title}
                     </h4>
-                    <p className="text-xs text-ink-700 leading-relaxed">
+                    <p className="text-xs text-editorial-700 leading-relaxed">
                       {tendency.explanation}
                     </p>
                   </div>
                 </div>
 
                 {/* 生活表现 */}
-                <div className="p-3 rounded-xl bg-warm-100/70 border border-warm-200 text-xs text-ink-700 leading-relaxed">
-                  <strong className="text-moss-900">在生活中常见的表现：</strong>
-                  <span>{tendency.manifestation}</span>
+                <div className="p-4 rounded-2xl bg-canvas-100/60 border border-canvas-200 text-xs text-editorial-800 leading-relaxed space-y-1">
+                  <span className="font-mono text-[10px] text-editorial-500 uppercase block">MANIFESTATION IN LIFE / 生活表现</span>
+                  <p>{tendency.manifestation}</p>
                 </div>
 
                 {/* 命盘依据展开 */}
@@ -289,9 +298,9 @@ export default function ReportDetailPage() {
                   <button
                     type="button"
                     onClick={() => toggleTendencyBasis(tendency.id)}
-                    className="flex items-center space-x-1.5 text-xs text-champagne-700 hover:text-champagne-800 font-medium"
+                    className="inline-flex items-center space-x-1.5 text-xs font-mono uppercase text-gold-800 hover:text-gold-900 font-semibold"
                   >
-                    <span>对应命盘依据：{tendency.chartBasis.palaceName}</span>
+                    <span>CELESTIAL RATIONALE: {tendency.chartBasis.palaceName}</span>
                     {isExpanded ? (
                       <ChevronUp className="w-3.5 h-3.5" />
                     ) : (
@@ -300,11 +309,11 @@ export default function ReportDetailPage() {
                   </button>
 
                   {isExpanded && (
-                    <div className="mt-2 p-3 rounded-xl bg-moss-50 border border-moss-200 text-xs text-ink-700 space-y-1 animate-fadeIn">
-                      <div className="font-medium text-moss-900">
-                        格局象征：{tendency.chartBasis.symbols}
+                    <div className="mt-3 p-4 rounded-2xl bg-editorial-950 text-gold-100 border border-editorial-800 text-xs space-y-1.5 animate-fadeIn">
+                      <div className="font-mono font-bold text-gold-400 text-xs">
+                        配置象意：{tendency.chartBasis.symbols}
                       </div>
-                      <p className="text-[11px] leading-relaxed text-ink-600">
+                      <p className="text-[11px] leading-relaxed text-canvas-300">
                         {tendency.chartBasis.symbolExplanation}
                       </p>
                     </div>
@@ -312,12 +321,11 @@ export default function ReportDetailPage() {
                 </div>
 
                 {/* 反思提问 */}
-                <div className="p-3 rounded-xl bg-[#FAF9F5] border border-champagne-200/80 text-xs text-ink-800 space-y-1">
-                  <span className="text-[11px] font-semibold text-champagne-800 flex items-center space-x-1">
-                    <HelpCircle className="w-3.5 h-3.5 text-champagne-600" />
-                    <span>供你核对的反思问题</span>
+                <div className="p-4 rounded-2xl bg-white border border-canvas-200 text-xs text-editorial-900 space-y-1 shadow-gallery">
+                  <span className="editorial-tag text-gold-700 block">
+                    INQUIRY PROMPT / 供你核对的反思提问
                   </span>
-                  <p className="italic text-ink-700 leading-relaxed">
+                  <p className="italic font-serif text-editorial-900 text-xs sm:text-sm leading-relaxed">
                     “{tendency.reflectionQuestion}”
                   </p>
                 </div>
@@ -328,108 +336,104 @@ export default function ReportDetailPage() {
       </section>
 
       {/* D. 一个容易重复的模式 */}
-      <section className="bg-white rounded-2xl border border-[#E5E0D2] p-5 sm:p-6 shadow-card space-y-3.5">
-        <div className="flex items-center space-x-2">
-          <Activity className="w-4 h-4 text-moss-800" />
-          <h2 className="font-serif font-bold text-base text-moss-900">
-            D. 一个容易重复的行为模式
+      <section className="gallery-card rounded-3xl p-6 sm:p-8 shadow-haute space-y-5 border border-canvas-200">
+        <div className="space-y-0.5 border-b border-canvas-200 pb-3">
+          <span className="editorial-tag text-gold-700">SECTION D · RECURSIVE PATTERN</span>
+          <h2 className="font-serif font-bold text-xl text-editorial-950">
+            容易重复的行为因果模式
           </h2>
         </div>
 
-        <div className="p-4 rounded-xl bg-warm-100/70 border border-warm-200 space-y-2">
-          <span className="font-serif font-bold text-sm text-moss-900 block">
+        <div className="p-5 rounded-2xl bg-canvas-100/70 border border-canvas-200 space-y-2">
+          <span className="font-serif font-bold text-base text-editorial-950 block">
             {report.repeatingPattern.title}
           </span>
-          <p className="text-xs text-ink-700 leading-relaxed">
+          <p className="text-xs text-editorial-700 leading-relaxed">
             {report.repeatingPattern.causalDescription}
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
-          <div className="p-3 rounded-xl bg-[#FCFAF6] border border-warm-200 space-y-1">
-            <span className="text-[10px] text-ink-500 block">主要影响领域</span>
-            <span className="font-medium text-moss-900">{report.repeatingPattern.impactArea}</span>
+          <div className="p-4 rounded-2xl bg-white border border-canvas-200 space-y-1 shadow-gallery">
+            <span className="editorial-tag text-editorial-400">IMPACT DOMAIN / 影响领域</span>
+            <span className="font-medium text-editorial-950 block">{report.repeatingPattern.impactArea}</span>
           </div>
 
-          <div className="p-3 rounded-xl bg-[#FCFAF6] border border-warm-200 space-y-1">
-            <span className="text-[10px] text-ink-500 block">觉察引爆点</span>
-            <span className="font-medium text-moss-900">{report.repeatingPattern.awarenessTrigger}</span>
+          <div className="p-4 rounded-2xl bg-white border border-canvas-200 space-y-1 shadow-gallery">
+            <span className="editorial-tag text-gold-700">AWARENESS TRIGGER / 觉察触发点</span>
+            <span className="font-medium text-editorial-950 block">{report.repeatingPattern.awarenessTrigger}</span>
           </div>
         </div>
       </section>
 
       {/* E. 当前值得厘清的问题 */}
-      <section className="bg-white rounded-2xl border border-[#E5E0D2] p-5 sm:p-6 shadow-card space-y-3.5">
-        <div className="flex items-center space-x-2">
-          <HelpCircle className="w-4 h-4 text-moss-800" />
-          <h2 className="font-serif font-bold text-base text-moss-900">
-            E. 当前值得进一步厘清的问题
+      <section className="gallery-card rounded-3xl p-6 sm:p-8 shadow-haute space-y-5 border border-canvas-200">
+        <div className="space-y-0.5 border-b border-canvas-200 pb-3">
+          <span className="editorial-tag text-gold-700">SECTION E · CLARIFICATION</span>
+          <h2 className="font-serif font-bold text-xl text-editorial-950">
+            当前值得进一步厘清的问题
           </h2>
         </div>
 
-        <p className="text-xs text-ink-500">
-          基于你选择的探索主题，以下问题有助于你将模糊的焦虑转化为具体的思考焦点：
-        </p>
-
-        <div className="space-y-2.5 pt-1">
+        <div className="space-y-3">
           {report.focusQuestions.map((q, i) => (
             <div
               key={i}
-              className="p-3.5 rounded-xl bg-warm-50 border border-warm-200 text-xs text-ink-800 flex items-start space-x-2.5"
+              className="p-4 rounded-2xl bg-canvas-100/60 border border-canvas-200 text-xs text-editorial-900 flex items-start space-x-3"
             >
-              <span className="w-5 h-5 rounded-full bg-warm-200 text-ink-700 text-[11px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
-                {i + 1}
+              <span className="font-mono text-xs font-bold text-gold-700 flex-shrink-0 mt-0.5">
+                [0{i + 1}]
               </span>
-              <p className="leading-relaxed">{q}</p>
+              <p className="leading-relaxed font-sans">{q}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* F. 一条可以尝试的小行动（微实验） */}
-      <section className="bg-moss-50 border border-moss-200 rounded-2xl p-5 sm:p-6 shadow-card space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Sparkles className="w-4 h-4 text-champagne-600" />
-            <h2 className="font-serif font-bold text-base text-moss-900">
-              F. 一条可以尝试的小行动
+      {/* F. 一条可以尝试的小行动 (48h Experiment) */}
+      <section className="rounded-3xl p-6 sm:p-8 shadow-haute space-y-4 bg-gold-50/70 border border-gold-200">
+        <div className="flex items-center justify-between border-b border-gold-200 pb-3">
+          <div className="space-y-0.5">
+            <span className="editorial-tag text-gold-800">SECTION F · TANGIBLE MICRO-ACTION</span>
+            <h2 className="font-serif font-bold text-xl text-editorial-950">
+              一条可以尝试的小行动
             </h2>
           </div>
-          <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-moss-200 text-moss-800 font-medium">
+          <span className="font-mono text-xs px-3 py-1 rounded-full bg-gold-200 text-gold-900 font-bold uppercase">
             {report.actionableExperiment.duration}
           </span>
         </div>
 
         <div className="space-y-2 text-xs">
-          <h3 className="font-serif font-bold text-sm text-moss-900">
+          <h3 className="font-serif font-bold text-base text-editorial-950">
             {report.actionableExperiment.title}
           </h3>
-          <p className="text-ink-700 leading-relaxed whitespace-pre-line">
+          <p className="text-editorial-800 leading-relaxed whitespace-pre-line">
             {report.actionableExperiment.description}
           </p>
         </div>
 
-        <div className="p-3 rounded-xl bg-white border border-moss-200 text-xs text-ink-600 space-y-1">
-          <span className="font-semibold text-moss-900 block">预期收获：</span>
+        <div className="p-4 rounded-2xl bg-white border border-gold-200 text-xs text-editorial-700 space-y-1 shadow-gallery">
+          <span className="editorial-tag text-gold-800">EXPECTED OUTCOME / 预期收获</span>
           <p className="text-[11px] leading-relaxed">
             {report.actionableExperiment.expectedOutcome}
           </p>
         </div>
       </section>
 
-      {/* G. 互动奇门命盘（九宫格，支持展开与词典弹窗） */}
-      <section className="space-y-2">
-        <div className="flex items-center space-x-2 px-1">
-          <Compass className="w-4 h-4 text-moss-800" />
-          <h2 className="font-serif font-bold text-base text-moss-900">
-            G. 互动命盘与客观词典
-          </h2>
+      {/* G. 互动奇门九宫格 */}
+      <section className="space-y-3">
+        <div className="editorial-tag text-gold-700 px-1">
+          SECTION G · CHRONO MATRIX & GLOSSARY
         </div>
         <NinePalaceGrid palaces={chartResult.palaces} />
       </section>
 
       {/* H. 用户反馈 */}
-      <section className="space-y-2">
+      <section className="space-y-3">
+        <div className="editorial-tag text-gold-700 px-1">
+          SECTION H · DIALOGUE ATTRIBUTION
+        </div>
         <ReportFeedbackSection
           reportId={report.id}
           initialFeedback={report.userFeedback}
@@ -437,55 +441,55 @@ export default function ReportDetailPage() {
         />
       </section>
 
-      {/* I. 老师入口（内嵌式卡片） */}
-      <section className="bg-gradient-to-br from-moss-900 to-moss-800 text-warm-50 rounded-2xl p-6 sm:p-8 shadow-floating space-y-4">
-        <div className="space-y-2 max-w-lg">
-          <span className="text-[11px] text-champagne-300 font-semibold tracking-wide">
-            I. 深入解读会谈
+      {/* I. 老师深入解读入口 */}
+      <section className="rounded-3xl p-8 sm:p-12 shadow-haute space-y-6 bg-editorial-950 text-gold-100 border border-editorial-800 relative overflow-hidden">
+        <div className="space-y-3 max-w-xl">
+          <span className="editorial-tag text-gold-400">
+            SECTION I · CONCIERGE DIALOGUE
           </span>
-          <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#FBFBF9] leading-snug">
+          <h2 className="font-serif text-2xl sm:text-3xl text-canvas-pure font-normal leading-snug">
             想结合你的真实经历，把这个问题聊透？
           </h2>
-          <p className="text-xs text-warm-200/90 leading-relaxed">
+          <p className="text-xs sm:text-sm text-canvas-300 leading-relaxed">
             老师将结合命盘与你的实际情况，进一步讨论这些模式出现的背景，以及你可以考虑的调整方向。
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3 pt-2">
+        <div className="flex flex-col sm:flex-row gap-4 pt-2">
           <Link
             href="/teachers"
-            className="inline-flex items-center justify-center space-x-2 px-6 py-3 rounded-xl bg-champagne-500 text-moss-900 text-xs font-bold hover:bg-champagne-400 transition shadow-soft"
+            className="btn-haute inline-flex items-center justify-center space-x-2 px-8 py-4 rounded-full bg-gold-500 text-editorial-950 text-xs font-mono font-bold uppercase hover:bg-gold-400 transition"
           >
             <span>预约老师深入解读</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
           <Link
             href="/teachers"
-            className="inline-flex items-center justify-center px-5 py-3 rounded-xl bg-moss-700/80 text-warm-50 text-xs font-medium hover:bg-moss-700 transition border border-moss-600"
+            className="inline-flex items-center justify-center px-6 py-4 rounded-full bg-editorial-900 text-canvas-200 text-xs font-mono uppercase hover:bg-editorial-800 transition border border-editorial-700"
           >
-            <span>查看老师介绍</span>
+            <span>查看老师介绍 / DIRECTORY</span>
           </Link>
         </div>
 
-        <div className="pt-2 border-t border-moss-700/60 flex items-center justify-between text-[11px] text-warm-300/70">
-          <span>会谈定价自 RM 220 起 · 支持 1 对 1 线上视频 / 语音</span>
-          <span>不设恐吓断言 · 纯净探讨</span>
+        <div className="pt-4 border-t border-editorial-800 flex flex-wrap items-center justify-between text-[10px] font-mono text-canvas-400 gap-2">
+          <span>· 会谈定价自 RM 220 起 · 1-ON-1 线上会晤</span>
+          <span>· 拒绝恐吓性预测 · 深度陪伴探讨</span>
         </div>
       </section>
 
-      {/* Mobile Sticky CTA bar (简洁避免遮挡) */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-30 p-3 bg-[#FAF9F5]/95 backdrop-blur-md border-t border-warm-200/80 shadow-card">
+      {/* Mobile Sticky CTA bar */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 p-3 bg-[#FAF7EE]/95 backdrop-blur-xl border-t border-canvas-200 shadow-haute">
         <div className="max-w-md mx-auto flex items-center justify-between gap-3">
           <div className="text-left">
-            <span className="text-[10px] text-ink-500 block">遇到卡点？</span>
-            <span className="text-xs font-bold text-moss-900">与老师深入对话</span>
+            <span className="font-mono text-[9px] text-editorial-400 uppercase block">1-ON-1 ATELIER</span>
+            <span className="font-serif text-xs font-bold text-editorial-950">与老师深入对话</span>
           </div>
           <Link
             href="/teachers"
-            className="inline-flex items-center space-x-1 px-4 py-2 rounded-xl bg-moss-800 text-warm-50 text-xs font-semibold hover:bg-moss-700 transition shadow-soft flex-shrink-0"
+            className="btn-haute inline-flex items-center space-x-1.5 px-5 py-2.5 rounded-full bg-editorial-950 text-gold-300 text-xs font-mono uppercase font-bold hover:bg-editorial-900 transition flex-shrink-0"
           >
-            <span>预约深入解读</span>
-            <ArrowRight className="w-3 h-3 text-champagne-300" />
+            <span>预约解读</span>
+            <ArrowUpRight className="w-3 h-3 text-gold-400" />
           </Link>
         </div>
       </div>

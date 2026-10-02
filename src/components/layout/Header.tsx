@@ -3,104 +3,116 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Compass, Menu, X, BookmarkCheck, UserCheck, Sparkles } from "lucide-react";
 import { brandConfig } from "@/config/brand";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 
 export default function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { href: "/", label: "首页" },
-    { href: "/assessment", label: "开始分析" },
-    { href: "/teachers", label: "预约老师" },
-    { href: "/my-reports", label: "已存报告" },
-    { href: "/teacher", label: "演示后台" },
+    { href: "/", label: "首页 / INDEX" },
+    { href: "/assessment", label: "命盘演算 / ORACLE" },
+    { href: "/teachers", label: "导师名录 / ATELIER" },
+    { href: "/my-reports", label: "档案库 / ARCHIVE" },
+    { href: "/teacher", label: "策展后台 / DESK" },
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-[#FAF9F5]/90 backdrop-blur-md border-b border-[#EBE7DD]">
-      <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
-        {/* Brand */}
-        <Link href="/" className="flex items-center space-x-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-moss-800 flex items-center justify-center text-champagne-300 shadow-sm group-hover:bg-moss-700 transition-colors">
-            <Compass className="w-4 h-4" />
+    <header className="sticky top-0 z-50 bg-[#FAF7EE]/85 backdrop-blur-xl border-b border-[#E8E4D8]">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+        {/* Brand / Haute Mark */}
+        <Link href="/" className="flex items-center space-x-3 group">
+          <div className="w-8 h-8 rounded-full border border-editorial-900 bg-editorial-950 flex items-center justify-center text-gold-300 font-serif text-xs tracking-widest group-hover:border-gold-500 group-hover:scale-105 transition-all duration-300">
+            观
           </div>
           <div className="flex flex-col">
-            <span className="font-serif text-lg font-bold text-moss-900 tracking-wider">
+            <span className="font-serif text-lg font-bold text-editorial-950 tracking-widest uppercase">
               {brandConfig.name}
+              <span className="text-[10px] ml-1.5 font-mono text-gold-600 font-normal">
+                STUDIO
+              </span>
             </span>
-            <span className="text-[10px] text-ink-500 tracking-tight -mt-1 font-sans">
-              命盘与人生对话
+            <span className="editorial-tag text-[9px] text-editorial-500 -mt-0.5">
+              METAPHYSICAL ARCHIVE
             </span>
           </div>
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center space-x-6 text-sm">
+        {/* Desktop Nav: Editorial & Clean */}
+        <nav className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`transition-colors py-1 ${
+                className={`text-xs tracking-wider transition-all duration-200 uppercase relative py-1 ${
                   isActive
-                    ? "text-moss-800 font-semibold border-b-2 border-moss-800"
-                    : "text-ink-600 hover:text-moss-800"
+                    ? "text-editorial-950 font-bold"
+                    : "text-editorial-600 hover:text-editorial-950"
                 }`}
               >
                 {link.label}
+                {isActive && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-gold-600 rounded-full animate-fadeIn" />
+                )}
               </Link>
             );
           })}
+
           <Link
             href="/assessment"
-            className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-moss-800 text-warm-50 text-xs font-medium hover:bg-moss-700 transition shadow-sm"
+            className="btn-haute inline-flex items-center space-x-1.5 px-4 py-2 rounded-full bg-editorial-950 text-gold-200 text-xs font-medium hover:bg-editorial-800 transition-all border border-editorial-800 shadow-gallery"
           >
-            <Sparkles className="w-3.5 h-3.5 text-champagne-400" />
-            <span>免费排盘</span>
+            <span>开始分析</span>
+            <ArrowUpRight className="w-3 h-3 text-gold-400" />
           </Link>
         </nav>
 
-        {/* Mobile Hamburger */}
+        {/* Mobile Trigger */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 rounded-lg text-ink-700 hover:bg-warm-200 transition"
-          aria-label="切换菜单"
+          className="md:hidden w-10 h-10 rounded-full border border-canvas-200 flex items-center justify-center text-editorial-900 hover:bg-canvas-100 transition"
+          aria-label="菜单"
         >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
         </button>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Curtain Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-[#EBE7DD] bg-[#FAF9F5] px-4 py-3 space-y-2 shadow-card animate-fadeIn">
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3 py-2 rounded-lg text-sm transition ${
-                  isActive
-                    ? "bg-moss-50 text-moss-800 font-semibold"
-                    : "text-ink-700 hover:bg-warm-200"
-                }`}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
-          <div className="pt-2 border-t border-warm-200">
+        <div className="md:hidden border-b border-canvas-200 bg-[#FAF7EE] px-6 py-6 space-y-4 shadow-haute animate-fadeIn">
+          <div className="text-[10px] font-mono uppercase text-gold-700 tracking-widest border-b border-canvas-200 pb-2">
+            EXHIBITION NAVIGATION
+          </div>
+          <div className="space-y-3">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block py-1 text-sm tracking-wider uppercase transition ${
+                    isActive
+                      ? "text-editorial-950 font-bold pl-2 border-l-2 border-gold-600"
+                      : "text-editorial-600 hover:text-editorial-950"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </div>
+          <div className="pt-3 border-t border-canvas-200">
             <Link
               href="/assessment"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full flex items-center justify-center space-x-2 py-2.5 rounded-xl bg-moss-800 text-warm-50 text-sm font-medium hover:bg-moss-700 transition"
+              className="w-full flex items-center justify-center space-x-2 py-3 rounded-full bg-editorial-950 text-gold-300 text-xs font-semibold tracking-wider uppercase hover:bg-editorial-800 transition"
             >
-              <Sparkles className="w-4 h-4 text-champagne-400" />
-              <span>开始免费分析</span>
+              <span>立即建立你的命盘档案</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>

@@ -3,78 +3,105 @@
 @tailwind utilities;
 
 :root {
-  --background: #FAF9F5;
-  --foreground: #232825;
+  --background: #FAF7EE;
+  --foreground: #111814;
 }
 
 body {
   color: var(--foreground);
   background-color: var(--background);
-  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: 
+    radial-gradient(rgba(18, 28, 23, 0.02) 1px, transparent 0),
+    radial-gradient(rgba(18, 28, 23, 0.015) 1px, transparent 0);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
 }
 
-/* 优雅的平滑滚动与排版细化 */
-html {
-  scroll-behavior: smooth;
+/* 艺术画廊级精细排印 */
+.editorial-title {
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
-/* 移动端 390px 容器及自适应布局 */
-.mobile-shell {
-  max-width: 440px;
-  margin-left: auto;
-  margin-right: auto;
-  min-height: 100vh;
-  background-color: #FAF9F5;
-  box-shadow: 0 0 40px -10px rgba(27, 43, 34, 0.07);
+.editorial-tag {
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
 }
 
-@media (min-width: 768px) {
-  .desktop-readable-width {
-    max-width: 680px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+/* 极细高级金属边线 (Hairline border) */
+.hairline-border {
+  border: 1px solid rgba(18, 28, 23, 0.08);
 }
 
-/* 奇门九宫格专属线条与交互 */
-.qimen-grid {
+.hairline-gold {
+  border: 1px solid rgba(184, 142, 75, 0.25);
+}
+
+/* 艺术画廊卡片质感 */
+.gallery-card {
+  background: #FFFFFF;
+  border: 1px solid #EAE7DC;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-card:hover {
+  border-color: #B88E4B;
+  box-shadow: 0 16px 36px -8px rgba(18, 28, 23, 0.07);
+  transform: translateY(-2px);
+}
+
+/* 奇门现代时空罗盘艺术图谱 */
+.celestial-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 6px;
-  background-color: #E6E2D8;
-  padding: 6px;
-  border-radius: 12px;
+  gap: 1px;
+  background-color: #E2DFD4;
+  border: 1px solid #D6D2C4;
+  border-radius: 16px;
+  overflow: hidden;
 }
 
-.qimen-cell {
-  background-color: #FCFAF6;
-  border-radius: 8px;
+.celestial-cell {
+  background: #FCFAF5;
   aspect-ratio: 1 / 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 6px;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  user-select: none;
+  padding: 10px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  position: relative;
 }
 
-.qimen-cell:hover {
-  background-color: #F4F0E6;
-  transform: translateY(-1px);
+.celestial-cell:hover {
+  background: #FFFFFF;
+  z-index: 10;
+  box-shadow: inset 0 0 0 1.5px #B88E4B;
 }
 
-.qimen-cell:active {
-  transform: scale(0.98);
+/* 艺术按纽动效与光泽感 */
+.btn-haute {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* 徽标、标签 */
-.tag-pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  font-size: 11px;
-  border-radius: 9999px;
-  font-weight: 500;
+.btn-haute::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transition: all 0.6s ease;
+}
+
+.btn-haute:hover::after {
+  left: 100%;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useParams, useSearchParams, useRouter } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { getTeacherById } from "@/data/mock-teachers";
 import { brandConfig } from "@/config/brand";
@@ -11,28 +11,20 @@ import {
   Calendar,
   Clock,
   User,
-  Phone,
-  Mail,
-  CheckCircle2,
   AlertCircle,
-  ShieldCheck,
   ArrowRight,
-  Info,
-  Share2,
   MessageCircle,
 } from "lucide-react";
 
 export default function BookingPage() {
   const params = useParams();
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   const teacherId = params?.teacherId as string;
   const initialServiceId = searchParams.get("serviceId");
 
   const teacher = getTeacherById(teacherId);
 
-  // 表单状态
   const [selectedServiceId, setSelectedServiceId] = useState(
     initialServiceId || teacher?.services[0]?.id || ""
   );
@@ -44,11 +36,9 @@ export default function BookingPage() {
   const [shareReportConsent, setShareReportConsent] = useState(true);
   const [clientQuestion, setClientQuestion] = useState("");
 
-  // 关联本地保存的报告
   const [savedReports, setSavedReports] = useState<any[]>([]);
   const [selectedReportId, setSelectedReportId] = useState<string>("");
 
-  // 提交完成状态
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedBooking, setSubmittedBooking] = useState<BookingRequest | null>(null);
 
@@ -62,10 +52,10 @@ export default function BookingPage() {
 
   if (!teacher) {
     return (
-      <div className="py-20 text-center space-y-3">
-        <p className="text-sm text-ink-700">未找到指定的老师资料</p>
-        <Link href="/teachers" className="text-xs text-moss-800 underline">
-          返回老师列表
+      <div className="py-24 text-center space-y-3">
+        <p className="font-mono text-sm text-editorial-700">ADVISOR PROFILE NOT FOUND</p>
+        <Link href="/teachers" className="text-xs text-gold-700 underline font-mono">
+          RETURN TO DIRECTORY
         </Link>
       </div>
     );
@@ -93,19 +83,17 @@ export default function BookingPage() {
       shareReportConsent,
       reportId: shareReportConsent ? selectedReportId || undefined : undefined,
       clientQuestion: clientQuestion.trim() || undefined,
-      status: "pending_confirmation", // 必须标明等待确认，绝不假装已确认
-      isDemoSubmission: true, // 标明演示提交，未发送
+      status: "pending_confirmation",
+      isDemoSubmission: true,
       createdAt: new Date().toISOString(),
     };
 
-    // 保存至本地演示存储
     LocalReportStore.saveDemoBooking(bookingData);
     setSubmittedBooking(bookingData);
     setIsSubmitted(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // 生成用户可点击自行发送的 WhatsApp 文本
   const hasWhatsapp = !!brandConfig.contact.whatsapp;
   const whatsappBookingText = encodeURIComponent(
     `您好【${brandConfig.name}】，我已提交与【${teacher.name}】老师的预约申请：\n· 姓名：${clientName}\n· 预约服务：${selectedService.name}\n· 日期：${date} ${timeSlot}\n· 费用：RM ${selectedService.priceRM}\n请问如何确认档期？`
@@ -115,70 +103,70 @@ export default function BookingPage() {
     : "#";
 
   return (
-    <div className="max-w-xl mx-auto py-2 space-y-6 pb-16">
+    <div className="max-w-xl mx-auto py-6 space-y-8 pb-20">
       {/* Breadcrumb */}
-      <div className="flex items-center space-x-2 text-xs text-ink-500">
-        <Link href={`/teachers/${teacher.id}`} className="hover:text-moss-800 transition">
-          ← 返回【{teacher.name}】详情
+      <div className="flex items-center space-x-2 text-xs font-mono uppercase text-editorial-500">
+        <Link href={`/teachers/${teacher.id}`} className="hover:text-gold-700 transition">
+          ← BACK TO {teacher.name}
         </Link>
         <span>/</span>
-        <span className="text-ink-800 font-medium">预约深入解读</span>
+        <span className="text-editorial-950 font-bold">CONCIERGE BOOKING</span>
       </div>
 
       {!isSubmitted ? (
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Card: Teacher & Service Summary */}
-          <div className="bg-white rounded-2xl border border-[#E5E0D2] p-5 shadow-card space-y-3">
-            <div className="flex items-center justify-between pb-3 border-b border-warm-200">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-xl bg-moss-50 border border-moss-200 flex items-center justify-center text-moss-800 font-serif font-bold text-lg">
+          <div className="gallery-card rounded-3xl p-6 sm:p-7 shadow-haute space-y-5 border border-canvas-200">
+            <div className="flex items-center justify-between pb-4 border-b border-canvas-200">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 rounded-2xl bg-editorial-950 border border-editorial-800 flex items-center justify-center text-gold-300 font-serif font-bold text-xl shadow-gallery">
                   {teacher.name.slice(0, 1)}
                 </div>
                 <div>
-                  <h2 className="font-serif font-bold text-base text-moss-900">
-                    预约咨询：{teacher.name}
+                  <span className="editorial-tag text-gold-700">APPOINTMENT ATELIER</span>
+                  <h2 className="font-serif font-bold text-lg text-editorial-950">
+                    预约导师：{teacher.name}
                   </h2>
-                  <p className="text-[11px] text-ink-500">{teacher.title}</p>
                 </div>
               </div>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-warm-200 text-ink-600">
-                1对1深度解读
+              <span className="font-mono text-[9px] px-2.5 py-0.5 rounded-full bg-gold-100 text-gold-800 uppercase font-semibold">
+                1-ON-1
               </span>
             </div>
 
             {/* Select Service */}
-            <div className="space-y-2">
-              <label className="text-xs font-medium text-ink-700 block">
-                选择服务方案
+            <div className="space-y-3">
+              <label className="text-xs font-mono uppercase text-editorial-700 block">
+                选择咨询服务方案 / SERVICE TIER
               </label>
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 {teacher.services.map((svc) => (
                   <label
                     key={svc.id}
-                    className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition ${
+                    className={`flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition ${
                       selectedServiceId === svc.id
-                        ? "bg-moss-50/70 border-moss-700 ring-1 ring-moss-700"
-                        : "bg-[#FCFAF6] border-warm-200 hover:bg-warm-100"
+                        ? "bg-editorial-950 text-gold-100 border-editorial-950 shadow-gallery"
+                        : "bg-[#FCFAF5] border-canvas-200 hover:border-canvas-300 text-editorial-950"
                     }`}
                   >
-                    <div className="flex items-center space-x-2.5">
+                    <div className="flex items-center space-x-3">
                       <input
                         type="radio"
                         name="service"
                         checked={selectedServiceId === svc.id}
                         onChange={() => setSelectedServiceId(svc.id)}
-                        className="text-moss-800 focus:ring-moss-700"
+                        className="text-gold-500 focus:ring-gold-500"
                       />
                       <div>
-                        <div className="text-xs font-semibold text-moss-900">
+                        <div className="text-xs font-bold font-serif">
                           {svc.name}
                         </div>
-                        <div className="text-[11px] text-ink-500">
-                          约 {svc.durationMinutes} 分钟
+                        <div className={`text-[10px] font-mono ${selectedServiceId === svc.id ? "text-canvas-400" : "text-editorial-500"}`}>
+                          EST. {svc.durationMinutes} MINUTES
                         </div>
                       </div>
                     </div>
-                    <div className="font-serif font-bold text-sm text-moss-900">
+                    <div className="font-serif font-bold text-sm text-gold-400">
                       RM {svc.priceRM}
                     </div>
                   </label>
@@ -188,16 +176,16 @@ export default function BookingPage() {
           </div>
 
           {/* Card: Date & Slot */}
-          <div className="bg-white rounded-2xl border border-[#E5E0D2] p-5 shadow-card space-y-4">
-            <h3 className="font-serif font-bold text-sm text-moss-900 flex items-center space-x-2">
-              <Calendar className="w-4 h-4 text-moss-800" />
+          <div className="gallery-card rounded-3xl p-6 sm:p-7 shadow-haute space-y-4 border border-canvas-200">
+            <h3 className="font-serif font-bold text-base text-editorial-950 flex items-center space-x-2">
+              <Calendar className="w-4 h-4 text-gold-700" />
               <span>选择预约日期与期望时段</span>
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div className="space-y-1.5">
-                <label className="block text-xs font-medium text-ink-700">
-                  期望日期 <span className="text-red-500">*</span>
+                <label className="block text-xs font-mono uppercase text-editorial-700">
+                  期望日期 / DATE <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="date"
@@ -205,18 +193,18 @@ export default function BookingPage() {
                   onChange={(e) => setDate(e.target.value)}
                   min={new Date().toISOString().split("T")[0]}
                   required
-                  className="w-full px-3 py-2.5 rounded-xl border border-warm-200 text-xs text-ink-800 focus:outline-none focus:border-moss-700 bg-[#FCFAF6]"
+                  className="w-full px-4 py-3 rounded-2xl border border-canvas-300 text-xs text-editorial-950 focus:outline-none focus:border-gold-600 bg-[#FCFAF5] transition"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="block text-xs font-medium text-ink-700">
-                  期望时段 <span className="text-red-500">*</span>
+                <label className="block text-xs font-mono uppercase text-editorial-700">
+                  期望时段 / SLOT <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={timeSlot}
                   onChange={(e) => setTimeSlot(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl border border-warm-200 text-xs text-ink-800 focus:outline-none focus:border-moss-700 bg-[#FCFAF6]"
+                  className="w-full px-4 py-3 rounded-2xl border border-canvas-300 text-xs text-editorial-950 focus:outline-none focus:border-gold-600 bg-[#FCFAF5] transition"
                 >
                   <option value="10:00 - 11:00">上午 10:00 - 11:00</option>
                   <option value="14:00 - 15:00">下午 14:00 - 15:00</option>
@@ -228,32 +216,29 @@ export default function BookingPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-ink-700">
-                你的时区
+              <label className="block text-xs font-mono uppercase text-editorial-700">
+                你的时区 / TIMEZONE
               </label>
               <input
                 type="text"
                 value={clientTimezone}
                 onChange={(e) => setClientTimezone(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-warm-200 text-xs text-ink-800 focus:outline-none focus:border-moss-700 bg-[#FCFAF6]"
+                className="w-full px-4 py-2.5 rounded-2xl border border-canvas-300 text-xs text-editorial-950 focus:outline-none focus:border-gold-600 bg-[#FCFAF5] transition"
               />
-              <p className="text-[10px] text-ink-400">
-                跨国咨询将根据时区准确对齐会谈时刻。
-              </p>
             </div>
           </div>
 
           {/* Card: Client Info & Report Sharing */}
-          <div className="bg-white rounded-2xl border border-[#E5E0D2] p-5 shadow-card space-y-4">
-            <h3 className="font-serif font-bold text-sm text-moss-900 flex items-center space-x-2">
-              <User className="w-4 h-4 text-moss-800" />
+          <div className="gallery-card rounded-3xl p-6 sm:p-7 shadow-haute space-y-4 border border-canvas-200">
+            <h3 className="font-serif font-bold text-base text-editorial-950 flex items-center space-x-2">
+              <User className="w-4 h-4 text-gold-700" />
               <span>联络方式与会前授权</span>
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div className="space-y-1.5">
-                <label className="block text-xs font-medium text-ink-700">
-                  你的姓名/称呼 <span className="text-red-500">*</span>
+                <label className="block text-xs font-mono uppercase text-editorial-700">
+                  姓名 / 称呼 <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -261,53 +246,53 @@ export default function BookingPage() {
                   onChange={(e) => setClientName(e.target.value)}
                   placeholder="例如：林女士"
                   required
-                  className="w-full px-3 py-2.5 rounded-xl border border-warm-200 text-xs text-ink-800 focus:outline-none focus:border-moss-700 bg-[#FCFAF6]"
+                  className="w-full px-4 py-3 rounded-2xl border border-canvas-300 text-xs text-editorial-950 focus:outline-none focus:border-gold-600 bg-[#FCFAF5] transition"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="block text-xs font-medium text-ink-700">
+                <label className="block text-xs font-mono uppercase text-editorial-700">
                   WhatsApp 手机号或邮箱 <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   value={clientContact}
                   onChange={(e) => setClientContact(e.target.value)}
-                  placeholder="+6012... 或 邮箱"
+                  placeholder="+6012... 或 电子邮箱"
                   required
-                  className="w-full px-3 py-2.5 rounded-xl border border-warm-200 text-xs text-ink-800 focus:outline-none focus:border-moss-700 bg-[#FCFAF6]"
+                  className="w-full px-4 py-3 rounded-2xl border border-canvas-300 text-xs text-editorial-950 focus:outline-none focus:border-gold-600 bg-[#FCFAF5] transition"
                 />
               </div>
             </div>
 
             {/* Share Report Consent */}
-            <div className="p-3.5 rounded-xl bg-warm-100/70 border border-warm-200 space-y-2">
-              <label className="flex items-start space-x-2.5 cursor-pointer">
+            <div className="p-4 rounded-2xl bg-canvas-100/70 border border-canvas-200 space-y-2">
+              <label className="flex items-start space-x-3 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={shareReportConsent}
                   onChange={(e) => setShareReportConsent(e.target.checked)}
-                  className="mt-0.5 rounded text-moss-800 focus:ring-moss-700"
+                  className="mt-0.5 rounded text-editorial-950 focus:ring-gold-500"
                 />
-                <div className="text-xs text-ink-800">
-                  <span className="font-semibold block text-moss-900">
+                <div className="text-xs text-editorial-800">
+                  <span className="font-bold block text-editorial-950">
                     主动授权老师查阅我的命盘分析报告
                   </span>
-                  <span className="text-[11px] text-ink-600 leading-relaxed block mt-0.5">
-                    勾选后，老师将在会谈前预先查阅你的命盘符号与反思记录，以便把时间留给针对性的探讨。我们绝不强制共享。
+                  <span className="text-[11px] text-editorial-600 leading-relaxed block mt-0.5 font-sans">
+                    勾选后，老师将在会谈前预先查阅你的命盘符号与反思记录，以便把宝贵时间留给针对性的探讨。
                   </span>
                 </div>
               </label>
 
               {shareReportConsent && savedReports.length > 0 && (
                 <div className="pt-2 text-xs">
-                  <label className="text-[11px] text-ink-500 block mb-1">
-                    选择关联分享的报告：
+                  <label className="font-mono text-[10px] text-editorial-500 uppercase block mb-1">
+                    ASSOCIATED REPORT / 关联分享报告:
                   </label>
                   <select
                     value={selectedReportId}
                     onChange={(e) => setSelectedReportId(e.target.value)}
-                    className="w-full p-2 rounded-lg border border-warm-200 text-xs bg-white text-ink-800"
+                    className="w-full p-2.5 rounded-xl border border-canvas-300 text-xs bg-white text-editorial-900"
                   >
                     {savedReports.map((r) => (
                       <option key={r.id} value={r.id}>
@@ -321,8 +306,8 @@ export default function BookingPage() {
 
             {/* Client Notes */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-ink-700">
-                本次会谈最想聚焦的问题（可选，限200字）
+              <label className="block text-xs font-mono uppercase text-editorial-700">
+                本次会谈最想聚焦的问题 (可选 / 限200字)
               </label>
               <textarea
                 rows={3}
@@ -330,101 +315,101 @@ export default function BookingPage() {
                 onChange={(e) => setClientQuestion(e.target.value)}
                 placeholder="简短描述你最渴望通过本次会谈得到厘清的现实困惑..."
                 maxLength={200}
-                className="w-full p-3 rounded-xl border border-warm-200 text-xs text-ink-800 focus:outline-none focus:border-moss-700 bg-[#FCFAF6]"
+                className="w-full p-3 rounded-2xl border border-canvas-300 text-xs text-editorial-950 focus:outline-none focus:border-gold-600 bg-[#FCFAF5] transition"
               />
             </div>
           </div>
 
-          {/* Pricing & Terms notice */}
-          <div className="p-4 rounded-xl bg-[#FAF9F5] border border-warm-200 space-y-2 text-xs text-ink-600">
-            <div className="flex justify-between font-semibold text-moss-900">
-              <span>应付金额：</span>
-              <span>RM {selectedService.priceRM}</span>
+          {/* Pricing statement */}
+          <div className="p-5 rounded-2xl bg-canvas-100/60 border border-canvas-200 space-y-2 text-xs text-editorial-700">
+            <div className="flex justify-between font-serif font-bold text-base text-editorial-950">
+              <span>应付咨询费用：</span>
+              <span className="text-gold-800">RM {selectedService.priceRM}</span>
             </div>
-            <p className="text-[11px] leading-relaxed text-ink-500">
+            <p className="text-[11px] leading-relaxed text-editorial-500 font-mono">
               说明：本平台第一版暂未接入在线支付与自动通知。提交后客服或老师将与您核对具体档期后方才安排支付，绝不在未经双方确认前扣费。
             </p>
           </div>
 
-          {/* Submit CTA */}
+          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-3.5 rounded-2xl bg-moss-800 text-warm-50 text-sm font-semibold hover:bg-moss-700 transition shadow-soft flex items-center justify-center space-x-2"
+            className="btn-haute w-full py-4 rounded-full bg-editorial-950 text-gold-300 text-xs font-mono uppercase font-bold hover:bg-editorial-900 transition shadow-haute flex items-center justify-center space-x-2"
           >
-            <span>提交预约申请</span>
-            <ArrowRight className="w-4 h-4 text-champagne-300" />
+            <span>SUBMIT APPOINTMENT / 提交预约申请</span>
+            <ArrowRight className="w-4 h-4 text-gold-400" />
           </button>
         </form>
       ) : (
         /* Submission Result Card */
-        <div className="bg-white rounded-2xl border border-[#E5E0D2] p-6 sm:p-8 shadow-card space-y-5 animate-fadeIn">
+        <div className="gallery-card rounded-3xl p-6 sm:p-10 shadow-haute space-y-6 border border-canvas-200 animate-fadeIn">
           {/* Status Header */}
-          <div className="text-center space-y-2 pb-4 border-b border-warm-200">
-            <div className="w-12 h-12 rounded-full bg-champagne-100 border border-champagne-300 flex items-center justify-center text-champagne-800 mx-auto">
-              <Clock className="w-6 h-6 text-champagne-700" />
+          <div className="text-center space-y-2 pb-6 border-b border-canvas-200">
+            <div className="w-14 h-14 rounded-full bg-gold-100 border border-gold-300 flex items-center justify-center text-gold-800 mx-auto">
+              <Clock className="w-6 h-6 text-gold-700" />
             </div>
-            <h2 className="font-serif font-bold text-xl text-moss-900">
+            <h2 className="font-serif font-bold text-2xl text-editorial-950">
               预约申请已提交，等待确认
             </h2>
-            <div className="inline-block px-3 py-1 rounded-full bg-warm-200 text-xs text-ink-700 font-medium">
-              状态：待确认（演示提交，未发送）
+            <div className="inline-block px-3 py-1 rounded-full bg-canvas-200 text-xs font-mono text-editorial-700 font-semibold uppercase">
+              STATUS: PENDING CONFIRMATION (DEMO SUBMISSION)
             </div>
           </div>
 
-          {/* Important honest notice */}
-          <div className="p-4 rounded-xl bg-champagne-50 border border-champagne-200 text-xs text-champagne-900 space-y-1.5">
-            <div className="flex items-center space-x-2 font-semibold">
-              <AlertCircle className="w-4 h-4 text-champagne-700 flex-shrink-0" />
-              <span>平台环境提示</span>
+          {/* Notice */}
+          <div className="p-4 rounded-2xl bg-gold-50 border border-gold-200 text-xs text-gold-900 space-y-1">
+            <div className="flex items-center space-x-2 font-bold font-mono">
+              <AlertCircle className="w-4 h-4 text-gold-700 flex-shrink-0" />
+              <span>[ 平台环境提示 ]</span>
             </div>
-            <p className="text-[11px] leading-relaxed">
-              当前系统处于演示阶段，尚未接入生产级短讯/邮件推送服务。此预约已记录在演示后台（你可在导航栏「演示后台」查看），但尚未实际发往外部老师邮箱。
+            <p className="text-[11px] leading-relaxed font-sans">
+              当前系统处于演示阶段，尚未接入生产级短讯/邮件推送服务。此预约已记录在演示后台（可在导航栏「策展后台」查看），但尚未实际发往外部老师邮箱。
             </p>
           </div>
 
           {/* Booking Summary */}
-          <div className="p-4 rounded-xl bg-warm-100/70 border border-warm-200 text-xs space-y-2">
-            <div className="flex justify-between py-1 border-b border-warm-200">
-              <span className="text-ink-500">老师：</span>
-              <span className="font-semibold text-moss-900">{teacher.name}</span>
+          <div className="p-5 rounded-2xl bg-canvas-100/70 border border-canvas-200 text-xs space-y-2.5">
+            <div className="flex justify-between py-1 border-b border-canvas-200">
+              <span className="font-mono text-editorial-500 uppercase">ADVISOR / 老师</span>
+              <span className="font-bold text-editorial-950 font-serif">{teacher.name}</span>
             </div>
-            <div className="flex justify-between py-1 border-b border-warm-200">
-              <span className="text-ink-500">服务：</span>
-              <span className="text-ink-800">{selectedService.name}</span>
+            <div className="flex justify-between py-1 border-b border-canvas-200">
+              <span className="font-mono text-editorial-500 uppercase">TIER / 服务方案</span>
+              <span className="text-editorial-800">{selectedService.name}</span>
             </div>
-            <div className="flex justify-between py-1 border-b border-warm-200">
-              <span className="text-ink-500">时长与费用：</span>
-              <span className="font-semibold text-moss-900">
-                {selectedService.durationMinutes} 分钟 / RM {selectedService.priceRM}
+            <div className="flex justify-between py-1 border-b border-canvas-200">
+              <span className="font-mono text-editorial-500 uppercase">FEE / 费用时长</span>
+              <span className="font-bold text-gold-800 font-serif">
+                {selectedService.durationMinutes} 分钟 · RM {selectedService.priceRM}
               </span>
             </div>
-            <div className="flex justify-between py-1 border-b border-warm-200">
-              <span className="text-ink-500">期望时间：</span>
-              <span className="text-ink-800">{date} · {timeSlot} ({clientTimezone})</span>
+            <div className="flex justify-between py-1 border-b border-canvas-200">
+              <span className="font-mono text-editorial-500 uppercase">SLOT / 期望时间</span>
+              <span className="text-editorial-800">{date} · {timeSlot} ({clientTimezone})</span>
             </div>
-            <div className="flex justify-between py-1 border-b border-warm-200">
-              <span className="text-ink-500">联络人：</span>
-              <span className="text-ink-800">{clientName} ({clientContact})</span>
+            <div className="flex justify-between py-1 border-b border-canvas-200">
+              <span className="font-mono text-editorial-500 uppercase">CLIENT / 联络人</span>
+              <span className="text-editorial-800">{clientName} ({clientContact})</span>
             </div>
             <div className="flex justify-between py-1">
-              <span className="text-ink-500">报告分享同意：</span>
-              <span className="text-moss-800 font-medium">
-                {shareReportConsent ? "已主动同意授权" : "未授权（会谈现聊）"}
+              <span className="font-mono text-editorial-500 uppercase">CONSENT / 报告授权</span>
+              <span className="text-gold-800 font-bold">
+                {shareReportConsent ? "已主动同意授权" : "未授权"}
               </span>
             </div>
           </div>
 
-          {/* Manual WhatsApp Option */}
+          {/* WhatsApp Direct */}
           {hasWhatsapp && (
             <div className="space-y-2 pt-2">
-              <span className="text-xs text-ink-600 block">
-                如需快速加速档期确认，可复制信息直接在 WhatsApp 联系：
+              <span className="text-xs text-editorial-600 block font-mono">
+                DIRECT CONCIERGE DISPATCH:
               </span>
               <a
                 href={whatsappManualUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center space-x-2 py-3 rounded-xl bg-[#25D366] text-white text-xs font-semibold hover:bg-[#1EBE5D] transition shadow-soft"
+                className="w-full inline-flex items-center justify-center space-x-2 py-3.5 rounded-full bg-[#25D366] text-white text-xs font-mono uppercase font-bold hover:bg-[#1EBE5D] transition shadow-gallery"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>在 WhatsApp 手动发送预约摘要给老师</span>
@@ -436,15 +421,15 @@ export default function BookingPage() {
           <div className="flex gap-3 pt-2">
             <Link
               href="/teacher"
-              className="flex-1 py-2.5 text-center rounded-xl bg-warm-200 text-moss-900 text-xs font-medium hover:bg-warm-300 transition"
+              className="flex-1 py-3 text-center rounded-full bg-canvas-200 text-editorial-900 text-xs font-mono uppercase font-semibold hover:bg-canvas-300 transition"
             >
-              前往演示后台查看此记录
+              前往演示后台查看记录
             </Link>
             <Link
               href="/"
-              className="flex-1 py-2.5 text-center rounded-xl bg-moss-800 text-warm-50 text-xs font-semibold hover:bg-moss-700 transition"
+              className="flex-1 py-3 text-center rounded-full bg-editorial-950 text-gold-200 text-xs font-mono uppercase font-bold hover:bg-editorial-900 transition"
             >
-              返回首页
+              返回首页 / INDEX
             </Link>
           </div>
         </div>
