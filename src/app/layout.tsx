@@ -23,9 +23,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN">
-      <body className="min-h-screen bg-[#FAF9F5] text-ink-900 flex flex-col antialiased selection:bg-champagne-200 selection:text-moss-900">
+      <body className="min-h-screen bg-[#F3F2EC] text-[#111211] flex flex-col antialiased selection:bg-[#D4F53C] selection:text-[#111211]">
         <Header />
-        <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-4 sm:py-8">
+        <main className="flex-1 w-full max-w-6xl mx-auto px-5 sm:px-8 py-4 sm:py-6">
           {children}
         </main>
         <Footer />

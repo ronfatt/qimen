@@ -3,116 +3,96 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import { brandConfig } from "@/config/brand";
-import { Menu, X, ArrowUpRight } from "lucide-react";
 
 export default function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { href: "/", label: "首页 / INDEX" },
-    { href: "/assessment", label: "命盘演算 / ORACLE" },
-    { href: "/teachers", label: "导师名录 / ATELIER" },
-    { href: "/my-reports", label: "档案库 / ARCHIVE" },
-    { href: "/teacher", label: "策展后台 / DESK" },
+    { href: "/assessment", label: "探索自己" },
+    { href: "/my-reports", label: "我的报告" },
+    { href: "/teachers", label: "连接老师" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-[#FAF7EE]/85 backdrop-blur-xl border-b border-[#E8E4D8]">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        {/* Brand / Haute Mark */}
-        <Link href="/" className="flex items-center space-x-3 group">
-          <div className="w-8 h-8 rounded-full border border-editorial-900 bg-editorial-950 flex items-center justify-center text-gold-300 font-serif text-xs tracking-widest group-hover:border-gold-500 group-hover:scale-105 transition-all duration-300">
-            观
-          </div>
-          <div className="flex flex-col">
-            <span className="font-serif text-lg font-bold text-editorial-950 tracking-widest uppercase">
-              {brandConfig.name}
-              <span className="text-[10px] ml-1.5 font-mono text-gold-600 font-normal">
-                STUDIO
-              </span>
-            </span>
-            <span className="editorial-tag text-[9px] text-editorial-500 -mt-0.5">
-              METAPHYSICAL ARCHIVE
-            </span>
-          </div>
+    <header className="sticky top-0 z-50 bg-[#F3F2EC]/90 backdrop-blur-md">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between">
+        {/* Logo: 观己 GUANJI */}
+        <Link href="/" className="flex flex-col group select-none">
+          <span className="text-2xl font-black tracking-tight text-[#111211]">
+            {brandConfig.name}
+          </span>
+          <span className="text-[10px] font-mono font-bold tracking-[0.28em] text-[#111211] uppercase -mt-0.5">
+            GUANJI
+          </span>
         </Link>
 
-        {/* Desktop Nav: Editorial & Clean */}
-        <nav className="hidden md:flex items-center space-x-8">
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center space-x-10">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-xs tracking-wider transition-all duration-200 uppercase relative py-1 ${
+                className={`text-sm font-medium transition-colors ${
                   isActive
-                    ? "text-editorial-950 font-bold"
-                    : "text-editorial-600 hover:text-editorial-950"
+                    ? "text-[#111211] font-bold"
+                    : "text-[#4A4D48] hover:text-[#111211]"
                 }`}
               >
                 {link.label}
-                {isActive && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-gold-600 rounded-full animate-fadeIn" />
-                )}
               </Link>
             );
           })}
-
-          <Link
-            href="/assessment"
-            className="btn-haute inline-flex items-center space-x-1.5 px-4 py-2 rounded-full bg-editorial-950 text-gold-200 text-xs font-medium hover:bg-editorial-800 transition-all border border-editorial-800 shadow-gallery"
-          >
-            <span>开始分析</span>
-            <ArrowUpRight className="w-3 h-3 text-gold-400" />
-          </Link>
         </nav>
 
-        {/* Mobile Trigger */}
+        {/* Right CTA */}
+        <div className="hidden md:flex items-center">
+          <Link
+            href="/assessment"
+            className="btn-pill-outline inline-flex items-center space-x-1 px-5 py-2 text-xs font-semibold"
+          >
+            <span>开始测试</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        {/* Mobile Hamburger */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden w-10 h-10 rounded-full border border-canvas-200 flex items-center justify-center text-editorial-900 hover:bg-canvas-100 transition"
+          className="md:hidden p-2 rounded-xl text-[#111211]"
           aria-label="菜单"
         >
-          {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
-      {/* Mobile Curtain Menu */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-canvas-200 bg-[#FAF7EE] px-6 py-6 space-y-4 shadow-haute animate-fadeIn">
-          <div className="text-[10px] font-mono uppercase text-gold-700 tracking-widest border-b border-canvas-200 pb-2">
-            EXHIBITION NAVIGATION
-          </div>
+        <div className="md:hidden border-b border-[#E2E1DA] bg-[#F3F2EC] px-6 py-5 space-y-4 shadow-xl animate-fadeIn">
           <div className="space-y-3">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-1 text-sm tracking-wider uppercase transition ${
-                    isActive
-                      ? "text-editorial-950 font-bold pl-2 border-l-2 border-gold-600"
-                      : "text-editorial-600 hover:text-editorial-950"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-base font-semibold text-[#111211] hover:text-black py-1"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
-          <div className="pt-3 border-t border-canvas-200">
+          <div className="pt-3 border-t border-[#E2E1DA]">
             <Link
               href="/assessment"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full flex items-center justify-center space-x-2 py-3 rounded-full bg-editorial-950 text-gold-300 text-xs font-semibold tracking-wider uppercase hover:bg-editorial-800 transition"
+              className="btn-lime w-full flex items-center justify-center space-x-1.5 py-3 text-sm"
             >
-              <span>立即建立你的命盘档案</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <span>开始免费分析</span>
+              <ArrowUpRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

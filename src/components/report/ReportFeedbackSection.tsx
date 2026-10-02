@@ -38,42 +38,42 @@ export default function ReportFeedbackSection({
   };
 
   return (
-    <div className="gallery-card rounded-3xl p-6 sm:p-8 shadow-haute space-y-5 border border-canvas-200">
-      <div className="flex items-center justify-between border-b border-canvas-200 pb-3">
-        <div className="space-y-0.5">
-          <span className="editorial-tag text-gold-700">EXPERIENCE VERIFICATION / 反思核对</span>
-          <h3 className="font-serif font-bold text-lg text-editorial-950">
+    <div className="clean-card p-6 sm:p-7 shadow-card space-y-4 bg-white">
+      <div className="flex items-center space-x-2">
+        <div className="w-8 h-8 rounded-full bg-[#D4F53C] flex items-center justify-center text-[#111211]">
+          <MessageSquareHeart className="w-4 h-4" />
+        </div>
+        <div>
+          <h3 className="font-black text-base text-[#111211]">
             这份梳理对你有启发吗？
           </h3>
+          <p className="text-[11px] text-[#767973]">
+            你的真实体会是反思的起点，我们不计算任何虚假的“命中准确率”
+          </p>
         </div>
-        <span className="font-mono text-[10px] text-editorial-400 uppercase">NO FAKE ACCURACY</span>
       </div>
 
-      <p className="text-xs text-editorial-600">
-        你的真实体会是反思的起点，我们不计算任何虚假的“命中准确率”。
-      </p>
-
       {submitted ? (
-        <div className="p-5 rounded-2xl bg-canvas-100/70 border border-canvas-200 space-y-2 animate-fadeIn text-xs">
-          <div className="flex items-center space-x-2 text-editorial-950 font-bold font-mono">
-            <CheckCircle2 className="w-4 h-4 text-gold-700" />
-            <span>[ 已记录个人核对反馈 ]</span>
+        <div className="p-4 rounded-2xl bg-[#F6F5ED] border border-[#E4E3DB] space-y-2 animate-fadeIn text-xs">
+          <div className="flex items-center space-x-2 text-[#111211] font-bold">
+            <CheckCircle2 className="w-4 h-4 text-[#111211]" />
+            <span>已记录你的个人核对反馈</span>
           </div>
-          <p className="text-editorial-700 leading-relaxed font-sans">
-            感谢你的坦诚记录。如果后续在老师深入会谈中探讨此报告，系统将明确标记
-            <strong className="text-gold-900 font-bold">「结合你补充的经历」</strong>
+          <p className="text-[#454840] leading-relaxed">
+            感谢你的坦诚记录。如果后续在老师深度咨询中探讨此报告，系统将明确标记
+            <strong className="text-[#111211]">「结合你补充的经历」</strong>
             ，绝不会将这些内容伪装为仅凭命盘得到的结论。
           </p>
-          <div className="pt-2 text-[11px] font-mono text-editorial-500">
-            评价：
-            <span className="font-bold text-editorial-950">
+          <div className="pt-2 text-[11px] text-[#767973]">
+            你的评价：
+            <span className="font-bold text-[#111211]">
               {closeness === "close" ? "很贴近" : closeness === "partial" ? "部分贴近" : "不贴近"}
             </span>
-            {note && ` · 备注：${note}`}
+            {note && ` · 补充文字：${note}`}
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3.5">
           <div className="grid grid-cols-3 gap-3">
             {[
               { key: "close", label: "很贴近" },
@@ -84,10 +84,10 @@ export default function ReportFeedbackSection({
                 type="button"
                 key={opt.key}
                 onClick={() => setCloseness(opt.key as any)}
-                className={`py-3 px-4 rounded-2xl border text-xs font-mono uppercase font-semibold transition ${
+                className={`py-3 px-3 rounded-2xl border text-xs font-bold transition ${
                   closeness === opt.key
-                    ? "bg-editorial-950 border-editorial-950 text-gold-200 shadow-gallery"
-                    : "border-canvas-300 text-editorial-700 bg-white hover:border-gold-500"
+                    ? "bg-[#D4F53C] border-[#BFE024] text-[#111211] shadow-sm"
+                    : "border-[#E2E1DA] text-[#111211] bg-[#FAF9F5] hover:border-black"
                 }`}
               >
                 {opt.label}
@@ -101,22 +101,22 @@ export default function ReportFeedbackSection({
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="（可选）补充你的真实生活经历或感受，帮助后续更聚焦..."
-              className="w-full text-xs p-4 rounded-2xl border border-canvas-300 bg-white text-editorial-950 placeholder:text-editorial-400 focus:outline-none focus:border-gold-600 transition"
+              className="w-full text-xs p-3.5 rounded-2xl border border-[#E2E1DA] bg-[#FAF9F5] text-[#111211] placeholder:text-[#8C9087] focus:outline-none focus:border-black transition"
               maxLength={200}
             />
           </div>
 
           <div className="flex items-center justify-between pt-1">
-            <span className="font-mono text-[10px] text-editorial-400 uppercase">
-              LOCAL ENCRYPTION PRESERVED
+            <span className="text-[10px] text-[#8C9087]">
+              仅保存在此报告的当前记录中
             </span>
             <button
               type="submit"
               disabled={!closeness}
-              className="btn-haute inline-flex items-center space-x-1.5 px-6 py-2.5 rounded-full bg-editorial-950 text-gold-200 text-xs font-mono uppercase font-bold hover:bg-editorial-900 transition disabled:opacity-40 disabled:cursor-not-allowed shadow-gallery"
+              className="btn-dark inline-flex items-center space-x-1.5 px-6 py-2.5 text-xs font-bold disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              <Send className="w-3 h-3 text-gold-400" />
-              <span>SUBMIT / 提交反馈</span>
+              <Send className="w-3 h-3" />
+              <span>提交反馈</span>
             </button>
           </div>
         </form>

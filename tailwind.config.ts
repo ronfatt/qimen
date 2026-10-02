@@ -11,86 +11,63 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        // 国际高定时装感与冷峻墨石色
-        editorial: {
-          950: "#090F0C", // 深曜石纯墨
-          900: "#111814", // 深冷曜石黑
-          850: "#16201B",
-          800: "#1D2B24", // 核心墨绿
-          700: "#2A3D33",
-          600: "#3D5447",
-          500: "#587262",
-          400: "#7E9988",
-          300: "#A9BEB1",
-          200: "#D3DFD8",
-          100: "#EAF0EC",
-          50: "#F5F8F6",
+        // 关键潮流荧光青柠绿 (Acid Lime)
+        lime: {
+          300: "#E6FC6A",
+          400: "#DBFA42",
+          500: "#D4F53C", // 核心品牌主色
+          600: "#BFE024",
+          700: "#A5C515",
         },
-        // 高级艺术香槟与原胚金
-        gold: {
-          900: "#5E4622",
-          800: "#80602F",
-          700: "#9C763A",
-          600: "#B88E4B",
-          500: "#CCA35E", // 主金
-          400: "#D8B777",
-          300: "#E5CD99",
-          200: "#F1E4C2",
-          100: "#F9F4E5",
-          50: "#FCFAF4",
-        },
-        // 策展画廊画布基调
-        canvas: {
-          900: "#242320",
-          800: "#363430",
-          700: "#54524D",
-          600: "#787670",
-          500: "#9E9C94",
-          400: "#C4C2B8",
-          300: "#DDDBCF",
-          200: "#EAE7DC", // 极细边线
-          100: "#F4F1E6", // 柔和底板
-          50: "#FAF7EE",  // 天然亚麻暖白主画布
-          pure: "#FFFFFF",
+        // 曜石深黑与冷炭灰
+        brand: {
+          black: "#111211",
+          dark: "#181A18",
+          darkCard: "#1D1F1D",
+          charcoal: "#2A2D2A",
+          muted: "#767973",
+          lightMuted: "#A3A79E",
+          border: "#E2E1DA",
+          cream: "#F3F2EC", // 主背景天然米白
+          surface: "#EAE9E1",
+          card: "#FFFFFF",
         },
       },
       fontFamily: {
-        serif: [
-          "Baskerville",
-          "Playfair Display",
-          "Songti SC",
-          "Noto Serif SC",
-          "STSong",
-          "Georgia",
-          "serif",
-        ],
         sans: [
           "-apple-system",
           "BlinkMacSystemFont",
-          "Helvetica Neue",
-          "Inter",
           "PingFang SC",
           "Hiragino Sans GB",
+          "Inter",
+          "Helvetica Neue",
           "sans-serif",
+        ],
+        serif: [
+          "Songti SC",
+          "Noto Serif SC",
+          "SimSun",
+          "Baskerville",
+          "serif",
         ],
         mono: [
           "SF Mono",
           "ui-monospace",
           "Menlo",
           "Monaco",
-          "Courier New",
           "monospace",
         ],
       },
-      letterSpacing: {
-        widest: ".25em",
-        extrawide: ".35em",
+      borderRadius: {
+        "2.5xl": "20px",
+        "3xl": "26px",
+        "4xl": "32px",
       },
       boxShadow: {
-        gallery: "0 8px 30px rgba(18, 28, 23, 0.05)",
-        haute: "0 20px 48px -12px rgba(18, 28, 23, 0.09)",
-        spotlight: "0 0 50px -10px rgba(184, 142, 75, 0.15)",
-        insetHairline: "inset 0 0 0 1px rgba(18, 28, 23, 0.06)",
+        tile: "0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04)",
+        card: "0 4px 20px -2px rgba(18, 19, 18, 0.04)",
+        pill: "0 2px 10px rgba(212, 245, 60, 0.35)",
+        darkCard: "0 16px 36px -8px rgba(0, 0, 0, 0.3)",
       },
     },
   },

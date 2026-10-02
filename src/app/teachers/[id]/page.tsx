@@ -11,6 +11,7 @@ import {
   MessageCircle,
   CheckCircle2,
   FileCheck,
+  ArrowUpRight,
 } from "lucide-react";
 
 export default function TeacherDetailPage({
@@ -32,90 +33,90 @@ export default function TeacherDetailPage({
     : "#";
 
   return (
-    <div className="space-y-10 py-6 max-w-3xl mx-auto pb-20">
+    <div className="space-y-8 py-4 max-w-4xl mx-auto pb-20">
       {/* Top Breadcrumb */}
-      <div className="flex items-center space-x-2 text-xs font-mono uppercase text-editorial-500">
-        <Link href="/teachers" className="hover:text-gold-700 transition">
-          ← BACK TO DIRECTORY
+      <div className="flex items-center space-x-2 text-xs font-semibold text-[#767973]">
+        <Link href="/teachers" className="hover:text-black transition">
+          ← 返回老师列表
         </Link>
         <span>/</span>
-        <span className="text-editorial-950 font-bold">{teacher.name}</span>
+        <span className="text-[#111211] font-bold">{teacher.name}</span>
       </div>
 
-      {/* Main Profile Dossier Card */}
-      <div className="gallery-card rounded-3xl p-6 sm:p-8 shadow-haute space-y-6 border border-canvas-200">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-canvas-200">
+      {/* Main Profile Card */}
+      <div className="clean-card p-6 sm:p-8 shadow-card space-y-6 bg-white">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 pb-6 border-b border-[#EAE9E1]">
           <div className="flex items-center space-x-5">
-            <div className="w-20 h-20 rounded-3xl bg-editorial-950 border border-editorial-800 flex items-center justify-center text-gold-300 font-serif font-bold text-3xl shadow-gallery flex-shrink-0">
+            <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-3xl bg-[#111211] text-[#D4F53C] flex items-center justify-center font-black text-3xl shadow-sm flex-shrink-0">
               {teacher.name.slice(0, 1)}
             </div>
             <div className="space-y-1">
               <div className="flex items-center space-x-2.5">
-                <h1 className="font-serif font-bold text-2xl text-editorial-950">
+                <h1 className="text-2xl font-black text-[#111211]">
                   {teacher.name}
                 </h1>
                 {teacher.isSample && (
-                  <span className="font-mono text-[9px] px-2.5 py-0.5 rounded-full bg-gold-100 text-gold-800 uppercase font-semibold">
-                    EXHIBIT ADVISOR
+                  <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#FAF9F5] text-[#5C6057] border border-[#E2E1DA] font-semibold">
+                    平台示例老师
                   </span>
                 )}
               </div>
-              <p className="text-xs text-editorial-500 font-mono">{teacher.title}</p>
+              <p className="text-xs text-[#767973]">{teacher.title}</p>
             </div>
           </div>
 
           <div className="text-left sm:text-right">
-            <span className="font-mono text-[10px] uppercase text-editorial-400 block">STANDARD APPOINTMENT</span>
-            <div className="font-serif font-bold text-3xl text-editorial-950 text-gold-800">
+            <span className="text-[10px] text-[#767973] uppercase font-bold block">单次深度咨询</span>
+            <div className="text-3xl font-black text-[#111211]">
               RM {teacher.priceRM}
             </div>
-            <span className="font-mono text-[11px] text-editorial-500">EST. {teacher.durationMinutes} MINUTES</span>
+            <span className="text-[11px] text-[#767973]">时长约 {teacher.durationMinutes} 分钟</span>
           </div>
         </div>
 
         {/* Bio */}
-        <div className="space-y-2 text-xs text-editorial-700 leading-relaxed">
-          <span className="editorial-tag text-gold-700 block">BACKGROUND BIOGRAPHY</span>
+        <div className="space-y-1 text-xs text-[#353833] leading-relaxed">
+          <h2 className="font-bold text-sm text-[#111211]">老师简介</h2>
           <p>{teacher.bio}</p>
         </div>
 
         {/* Methodology */}
-        <div className="p-5 rounded-2xl bg-canvas-100/70 border border-canvas-200 space-y-2 text-xs text-editorial-800 leading-relaxed">
-          <span className="editorial-tag text-gold-700 block">METHODOLOGY & PHILOSOPHY</span>
+        <div className="p-5 rounded-2xl bg-[#F6F5ED] border border-[#E4E3DB] space-y-1 text-xs text-[#2A2E26] leading-relaxed">
+          <h2 className="font-bold text-sm text-[#111211]">解读方法与理念</h2>
           <p>{teacher.methodology}</p>
         </div>
 
         {/* Basic Attributes Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
-          <div className="p-4 rounded-2xl bg-white border border-canvas-200 space-y-1 shadow-gallery">
-            <span className="font-mono text-[10px] text-editorial-400 uppercase block">LANGUAGES</span>
-            <span className="font-medium text-editorial-950">{teacher.languages.join("、")}</span>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-xs">
+          <div className="p-4 rounded-2xl bg-[#FAF9F5] border border-[#E2E1DA] space-y-1">
+            <span className="text-[10px] text-[#767973] font-bold block">咨询语言</span>
+            <span className="font-bold text-[#111211]">{teacher.languages.join("、")}</span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white border border-canvas-200 space-y-1 shadow-gallery">
-            <span className="font-mono text-[10px] text-editorial-400 uppercase block">MODE</span>
-            <span className="font-medium text-editorial-950">{teacher.consultationModes.join(" · ")}</span>
+          <div className="p-4 rounded-2xl bg-[#FAF9F5] border border-[#E2E1DA] space-y-1">
+            <span className="text-[10px] text-[#767973] font-bold block">服务方式</span>
+            <span className="font-bold text-[#111211]">{teacher.consultationModes.join(" · ")}</span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white border border-canvas-200 space-y-1 shadow-gallery">
-            <span className="font-mono text-[10px] text-editorial-400 uppercase block">USUAL SLOTS</span>
-            <span className="font-medium text-editorial-950 text-[11px] block">{teacher.availableSlots[0]}</span>
+          <div className="p-4 rounded-2xl bg-[#FAF9F5] border border-[#E2E1DA] space-y-1">
+            <span className="text-[10px] text-[#767973] font-bold block">常态可预约时段</span>
+            <span className="font-bold text-[#111211] text-[11px] block">{teacher.availableSlots[0]}</span>
           </div>
         </div>
       </div>
 
       {/* Agenda & Preparation */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* 会谈包含什么 */}
-        <div className="gallery-card rounded-3xl p-6 sm:p-7 shadow-haute space-y-4 border border-canvas-200">
-          <div className="flex items-center space-x-2 text-editorial-950 font-serif font-bold text-base">
-            <CheckCircle2 className="w-4 h-4 text-gold-700" />
-            <h2>会谈包含什么 / AGENDA</h2>
+        <div className="clean-card p-6 sm:p-7 shadow-card space-y-3.5 bg-white">
+          <div className="flex items-center space-x-2 text-[#111211] font-black text-base">
+            <CheckCircle2 className="w-4 h-4 text-[#111211]" />
+            <h2>会谈包含什么</h2>
           </div>
-          <ul className="space-y-2.5 text-xs text-editorial-700">
+          <ul className="space-y-2 text-xs text-[#353833]">
             {teacher.agenda.map((item, idx) => (
-              <li key={idx} className="flex items-start space-x-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-gold-600 mt-1.5 flex-shrink-0" />
+              <li key={idx} className="flex items-start space-x-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#111211] mt-1.5 flex-shrink-0" />
                 <span className="leading-relaxed">{item}</span>
               </li>
             ))}
@@ -123,15 +124,15 @@ export default function TeacherDetailPage({
         </div>
 
         {/* 用户需要准备什么 */}
-        <div className="gallery-card rounded-3xl p-6 sm:p-7 shadow-haute space-y-4 border border-canvas-200">
-          <div className="flex items-center space-x-2 text-editorial-950 font-serif font-bold text-base">
-            <FileCheck className="w-4 h-4 text-gold-700" />
-            <h2>用户需要准备什么 / PREPARATION</h2>
+        <div className="clean-card p-6 sm:p-7 shadow-card space-y-3.5 bg-white">
+          <div className="flex items-center space-x-2 text-[#111211] font-black text-base">
+            <FileCheck className="w-4 h-4 text-[#111211]" />
+            <h2>用户需要准备什么</h2>
           </div>
-          <ul className="space-y-2.5 text-xs text-editorial-700">
+          <ul className="space-y-2 text-xs text-[#353833]">
             {teacher.clientPreparation.map((item, idx) => (
-              <li key={idx} className="flex items-start space-x-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-editorial-700 mt-1.5 flex-shrink-0" />
+              <li key={idx} className="flex items-start space-x-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#111211] mt-1.5 flex-shrink-0" />
                 <span className="leading-relaxed">{item}</span>
               </li>
             ))}
@@ -140,38 +141,35 @@ export default function TeacherDetailPage({
       </div>
 
       {/* Services and Pricing Options */}
-      <div className="gallery-card rounded-3xl p-6 sm:p-8 shadow-haute space-y-4 border border-canvas-200">
-        <div className="space-y-0.5 border-b border-canvas-200 pb-3">
-          <span className="editorial-tag text-gold-700">CONSULTATION TIERS</span>
-          <h2 className="font-serif font-bold text-lg text-editorial-950">
-            可选会谈服务方案
-          </h2>
-        </div>
+      <div className="clean-card p-6 sm:p-7 shadow-card space-y-4 bg-white">
+        <h2 className="font-black text-base text-[#111211]">
+          可选择的会谈服务方案
+        </h2>
         <div className="space-y-3">
           {teacher.services.map((svc) => (
             <div
               key={svc.id}
-              className="p-5 rounded-2xl border border-canvas-200 bg-[#FCFAF5] flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+              className="p-5 rounded-2xl border border-[#E2E1DA] bg-[#FAF9F5] flex flex-col sm:flex-row sm:items-center justify-between gap-4"
             >
               <div className="space-y-1">
                 <div className="flex items-center space-x-2">
-                  <span className="font-serif font-bold text-base text-editorial-950">
+                  <span className="font-bold text-base text-[#111211]">
                     {svc.name}
                   </span>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-gold-100 text-gold-800 uppercase font-semibold">
-                    {svc.durationMinutes} MINS
+                  <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#EAE9E1] text-[#111211] font-bold">
+                    {svc.durationMinutes} 分钟
                   </span>
                 </div>
-                <p className="text-xs text-editorial-600">{svc.description}</p>
+                <p className="text-xs text-[#6B6E66]">{svc.description}</p>
               </div>
 
               <div className="flex items-center space-x-4 self-end sm:self-center">
-                <div className="font-serif font-bold text-xl text-editorial-950">
+                <div className="text-xl font-black text-[#111211]">
                   RM {svc.priceRM}
                 </div>
                 <Link
                   href={`/booking/${teacher.id}?serviceId=${svc.id}`}
-                  className="btn-haute px-6 py-2.5 rounded-full bg-editorial-950 text-gold-200 text-xs font-mono font-semibold uppercase hover:bg-editorial-900 transition shadow-gallery"
+                  className="btn-lime px-6 py-2.5 text-xs font-bold"
                 >
                   预约此方案
                 </Link>
@@ -182,21 +180,20 @@ export default function TeacherDetailPage({
       </div>
 
       {/* WhatsApp & Booking CTA */}
-      <div className="rounded-3xl bg-editorial-950 text-gold-100 p-8 sm:p-10 shadow-haute space-y-5 border border-editorial-800">
-        <div className="space-y-2">
-          <span className="editorial-tag text-gold-400">DIRECT CONCIERGE ACCESS</span>
-          <h2 className="font-serif font-bold text-xl sm:text-2xl text-canvas-pure">
-            预约与会前沟通渠道
+      <div className="rounded-3xl bg-[#111211] text-white p-7 sm:p-9 shadow-2xl space-y-5">
+        <div className="space-y-1">
+          <h2 className="text-xl font-black text-white">
+            预约与会前沟通
           </h2>
-          <p className="text-xs sm:text-sm text-canvas-300 leading-relaxed">
+          <p className="text-xs text-[#A2A69D] leading-relaxed">
             你可以直接通过平台填写预约单申请档期，也可在 WhatsApp 留下你初步关心的问题。
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 pt-2">
+        <div className="flex flex-col sm:flex-row gap-4 pt-1">
           <Link
             href={`/booking/${teacher.id}`}
-            className="btn-haute flex-1 inline-flex items-center justify-center space-x-2 py-4 rounded-full bg-gold-500 text-editorial-950 text-xs font-mono font-bold uppercase hover:bg-gold-400 transition"
+            className="btn-lime flex-1 inline-flex items-center justify-center space-x-2 py-3.5 text-xs font-bold"
           >
             <span>立即提交预约申请</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -207,21 +204,21 @@ export default function TeacherDetailPage({
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center space-x-2 px-7 py-4 rounded-full bg-white text-editorial-950 text-xs font-mono uppercase font-bold hover:bg-canvas-100 transition shadow-gallery"
+              className="inline-flex items-center justify-center space-x-2 px-7 py-3.5 rounded-full bg-white text-[#111211] text-xs font-bold hover:bg-neutral-100 transition shadow-sm"
             >
               <MessageCircle className="w-4 h-4 text-green-600" />
-              <span>WHATSAPP 人工咨询</span>
+              <span>WhatsApp 咨询（人工）</span>
             </a>
           ) : (
-            <div className="inline-flex items-center justify-center space-x-2 px-6 py-4 rounded-full bg-editorial-900 text-editorial-500 text-xs font-mono uppercase cursor-not-allowed border border-editorial-800">
-              <MessageCircle className="w-4 h-4 text-editorial-600" />
-              <span>WHATSAPP 联系方式待设置</span>
+            <div className="inline-flex items-center justify-center space-x-2 px-6 py-3.5 rounded-full bg-neutral-800 text-neutral-400 text-xs font-bold cursor-not-allowed">
+              <MessageCircle className="w-4 h-4 text-neutral-500" />
+              <span>WhatsApp 联系方式待设置</span>
             </div>
           )}
         </div>
 
         {!hasWhatsapp && (
-          <p className="text-[10px] font-mono text-editorial-400">
+          <p className="text-[10px] text-[#868A82]">
             * 提示：管理员尚未在配置文件中配置 WhatsApp 号码。系统严格禁止跳转到虚假号码。
           </p>
         )}
