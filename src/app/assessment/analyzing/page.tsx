@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BirthProfile } from "@/types";
-import { defaultChartEngine } from "@/services/chart/sample-chart-engine";
+import { dynamicChartEngine } from "@/services/chart/dynamic-qimen-engine";
 import { defaultAnalysisProvider } from "@/services/analysis/structured-rule-analysis";
 import { LocalReportStore } from "@/services/storage/local-report-store";
 import { CheckCircle2, Loader2, AlertCircle } from "lucide-react";
@@ -29,7 +29,7 @@ export default function AnalyzingPage() {
 
         // 阶段 1：真实资料校验
         setStage("validating");
-        const valRes = defaultChartEngine.validateProfile(profile);
+        const valRes = dynamicChartEngine.validateProfile(profile);
         if (!valRes.valid) {
           throw new Error(valRes.error || "出生资料校验失败");
         }
@@ -39,7 +39,7 @@ export default function AnalyzingPage() {
 
         // 阶段 2：排盘演算
         setStage("calculating_chart");
-        const chart = await defaultChartEngine.calculateChart(profile);
+        const chart = await dynamicChartEngine.calculateChart(profile);
 
         await new Promise((r) => setTimeout(r, 550));
         if (!isMounted) return;

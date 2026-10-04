@@ -43,10 +43,10 @@ export const brandConfig: BrandConfig = {
     symbol: "RM",
   },
   engineConfig: {
-    currentStatus: "sample_demo",
-    defaultSchool: "时家转盘奇门（拆补/置闰需校定）",
-    solarTermRule: "二十四节气精确分界（定气法待接入授时历）",
-    dayBoundaryRule: "子时换日（早夜子时争议规则待确定）",
+    currentStatus: "engine_connected",
+    defaultSchool: "时家转盘奇门（天文二十四节气精确拆补历法）已全面接通",
+    solarTermRule: "基于授时历高精度节气时刻划分（定气拆补法）",
+    dayBoundaryRule: "子时换日（23:00 起算次日子时）",
     trueSolarTimeEnabled: true,
     unconfirmedRulesList: [
       "拆补法 vs 置闰法 vs 茅山派排盘算法统一规范",

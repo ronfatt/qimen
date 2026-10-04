@@ -1,5 +1,5 @@
 import { AnalysisReport } from "@/types";
-import { defaultChartEngine } from "../chart/sample-chart-engine";
+import { dynamicChartEngine } from "../chart/dynamic-qimen-engine";
 import { defaultAnalysisProvider } from "./structured-rule-analysis";
 
 export async function getCanonicalSampleReport(): Promise<AnalysisReport> {
@@ -16,7 +16,7 @@ export async function getCanonicalSampleReport(): Promise<AnalysisReport> {
     consentGiven: true,
   };
 
-  const chart = await defaultChartEngine.calculateChart(sampleProfile);
+  const chart = await dynamicChartEngine.calculateChart(sampleProfile);
   const report = await defaultAnalysisProvider.generateReport(sampleProfile, chart);
   
   return {
