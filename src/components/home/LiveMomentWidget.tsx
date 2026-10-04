@@ -3,12 +3,25 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Solar } from "lunar-typescript";
-import { Clock, Compass, ArrowRight, Zap, RefreshCw } from "lucide-react";
+import {
+  Clock,
+  Compass,
+  ArrowRight,
+  ArrowUpRight,
+  Play,
+  Cpu,
+  Layers,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
+import ArchitectureModal from "@/components/architecture/ArchitectureModal";
 
 export default function LiveMomentWidget() {
   const [timeStr, setTimeStr] = useState("");
   const [baziStr, setBaziStr] = useState("");
   const [jieQiStr, setJieQiStr] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTab, setModalTab] = useState<"architecture" | "negotiation" | "pipeline">("architecture");
 
   useEffect(() => {
     const updateTime = () => {
@@ -41,79 +54,143 @@ export default function LiveMomentWidget() {
     return () => clearInterval(interval);
   }, []);
 
+  const openArchitecture = () => {
+    setModalTab("architecture");
+    setModalOpen(true);
+  };
+
+  const openDemoLogic = () => {
+    setModalTab("negotiation");
+    setModalOpen(true);
+  };
+
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-[#1C201C] via-[#131513] to-[#0A0C0A] text-white border border-[#2E352E] shadow-2xl relative overflow-hidden">
-      {/* 东方水墨与八卦暗纹背景装饰 */}
-      <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-[#C92A2A]/10 pointer-events-none blur-3xl" />
-      <div className="absolute -bottom-16 -left-16 w-56 h-56 rounded-full bg-[#D4AF37]/5 pointer-events-none blur-3xl" />
+    <>
+      {/* 商业谈判与竞争决策作品集卡片 (严格契合作品集 #09 设计规范) */}
+      <div className="rounded-3xl p-6 sm:p-9 bg-gradient-to-br from-[#1A1E1A] via-[#131513] to-[#0D0F0D] text-white border border-[#2E352E] shadow-2xl relative overflow-hidden space-y-6">
+        {/* 背景金石与朱砂微光 */}
+        <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-[#C92A2A]/15 pointer-events-none blur-3xl" />
+        <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-[#D4AF37]/10 pointer-events-none blur-3xl" />
 
-      <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        {/* 左侧说明与时钟 */}
-        <div className="space-y-4 max-w-xl">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="seal-stamp px-2 py-0.5 text-[10px] font-serif font-black bg-red-900/60 border-red-500 text-red-200">
-              非个人盘 · 实时时空起局
+        {/* 1. Header: #09 奇门遁甲 · LIVE 线上作品 · AI ENGINE PROTOTYPE · 点击看架构 ↗ */}
+        <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 border-b border-[#2A312A] pb-4">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-black bg-[#232823] text-amber-300 border border-[#3E473E] shadow-sm">
+              #09 奇门遁甲
             </span>
-            <span className="text-[11px] font-mono tracking-widest text-[#D4AF37] uppercase flex items-center space-x-1">
+            <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-emerald-950/80 text-emerald-400 border border-emerald-800/80 flex items-center space-x-1.5">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>LIVE ORACULAR TEMPORAL ENGINE</span>
+              <span>LIVE 线上作品</span>
+            </span>
+            <span className="text-[11px] font-mono text-[#A8B0A8] uppercase flex items-center space-x-1 tracking-wider">
+              <Cpu className="w-3.5 h-3.5 text-[#C92A2A]" />
+              <span>AI ENGINE PROTOTYPE</span>
             </span>
           </div>
 
+          {/* 右上角：点击看架构 ↗ */}
+          <button
+            onClick={openArchitecture}
+            className="group inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full border border-amber-400/40 bg-amber-400/10 text-amber-200 text-xs font-serif font-bold hover:bg-amber-400/20 hover:border-amber-400 transition"
+          >
+            <span>点击看架构</span>
+            <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </button>
+        </div>
+
+        {/* 2. Middle Content: Title, English Title & Mission Quote */}
+        <div className="relative z-10 space-y-3">
           <div className="space-y-1">
-            <h2 className="text-2xl sm:text-3xl font-serif font-black text-white tracking-tight">
-              当下命盘 · 实时时空势局解读
+            <h2 className="text-3xl sm:text-4xl font-serif font-black text-white tracking-tight leading-tight">
+              奇门遁甲战略决策助手
             </h2>
-            <p className="text-xs sm:text-sm text-[#A8B0A8] font-serif leading-relaxed">
-              无需输入个人生辰。系统自动以你<strong>点击的当下日期与秒级时间</strong>实时演算出天地八字、奇门遁甲九宫格局，为你洞察此时此刻的天时势能、吉顺方位与行动宜忌。
-            </p>
+            <div className="text-xs sm:text-sm font-mono tracking-widest text-[#9EA89E] uppercase">
+              Qi Men Dun Jia Strategic Assistant
+            </div>
           </div>
 
-          {/* 实时走动的时空坐标仪表板 */}
-          <div className="p-3.5 sm:p-4 rounded-2xl bg-[#242924]/80 border border-[#3A423A] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-            <div className="space-y-1">
-              <div className="text-[10px] text-[#8C948C] font-mono uppercase flex items-center space-x-1.5">
-                <Clock className="w-3 h-3 text-[#D4AF37]" />
-                <span>实时捕捉此刻公历：</span>
-                <span className="font-mono font-bold text-white text-[11px]">
-                  {timeStr || "正在对齐天文授时时钟..."}
-                </span>
-              </div>
-              <div className="text-xs font-serif font-bold text-amber-200">
-                此刻八字：{baziStr || "计算中..."}
-                {jieQiStr && (
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#131513] text-emerald-300 ml-2 border border-[#2D332D]">
-                    {jieQiStr}气
-                  </span>
-                )}
-              </div>
-            </div>
-
-            <div className="text-[10px] text-[#8C948C] sm:text-right">
-              时家转盘奇门 · 实时拆补定局
-            </div>
+          {/* Slogan Quote */}
+          <div className="p-4 rounded-2xl bg-[#1F241F]/80 border-l-4 border-l-[#C92A2A] border-y border-r border-[#2C332C]">
+            <p className="text-sm sm:text-base font-serif font-bold text-[#E8EFE8] leading-relaxed">
+              “把九宫八神、九星八门的复杂时空盘，转化为商业谈判与竞争决策的清晰行动指南。”
+            </p>
           </div>
         </div>
 
-        {/* 右侧主行动区 */}
-        <div className="flex flex-col sm:flex-row lg:flex-col gap-3 flex-shrink-0 justify-center">
+        {/* 3. Live Ticking Astronomical Clock & Bazi Box */}
+        <div className="relative z-10 p-4 rounded-2xl bg-[#1A1F1A] border border-[#2D342D] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div className="space-y-1">
+            <div className="text-[11px] text-[#8C948C] font-mono flex items-center space-x-2">
+              <Clock className="w-3.5 h-3.5 text-amber-400 animate-spin-slow" />
+              <span>当前精准授时：</span>
+              <span className="font-mono font-bold text-white text-xs">
+                {timeStr || "正在对齐天文授时时钟..."}
+              </span>
+            </div>
+            <div className="text-xs font-serif font-bold text-amber-200 flex items-center space-x-2">
+              <span>此刻八字：{baziStr || "计算中..."}</span>
+              {jieQiStr && (
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#131513] text-emerald-300 border border-[#2D332D]">
+                  {jieQiStr}气
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="text-[11px] text-[#A8B0A8] font-serif sm:text-right flex items-center sm:justify-end space-x-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>拆补正局 · 实时推演九宫格</span>
+          </div>
+        </div>
+
+        {/* 4. Strategic Tags */}
+        <div className="relative z-10 flex flex-wrap items-center gap-2 text-xs font-serif">
+          <span className="px-3 py-1 rounded-full bg-[#242A24] border border-[#343D34] text-[#D8E0D8]">
+            时家奇门
+          </span>
+          <span className="px-3 py-1 rounded-full bg-[#242A24] border border-[#343D34] text-[#D8E0D8]">
+            局象自动计算
+          </span>
+          <span className="px-3 py-1 rounded-full bg-[#242A24] border border-[#343D34] text-[#D8E0D8]">
+            商业谈判策略
+          </span>
+          <span className="px-3 py-1 rounded-full bg-[#242A24] border border-[#343D34] text-[#D8E0D8]">
+            主客动向律
+          </span>
+          <span className="px-3 py-1 rounded-full bg-[#242A24] border border-[#343D34] text-[#D8E0D8]">
+            座次地利
+          </span>
+        </div>
+
+        {/* 5. Bottom Action Buttons: [▶ 演示逻辑] & [进入真实 App ↗] */}
+        <div className="relative z-10 flex flex-col sm:flex-row items-center gap-3 pt-2">
+          {/* ▶ 演示逻辑 */}
+          <button
+            onClick={openDemoLogic}
+            className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-3.5 rounded-full border border-neutral-600 bg-neutral-800/80 hover:bg-neutral-700/80 text-white text-xs sm:text-sm font-serif font-bold transition shadow-sm"
+          >
+            <Play className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
+            <span>演示逻辑</span>
+          </button>
+
+          {/* 进入真实 App ↗ (即进入 /moment 实时当下盘) */}
           <Link
             href="/moment"
-            className="btn-cinnabar inline-flex items-center justify-center space-x-2 px-8 py-4 text-xs font-serif font-bold tracking-wide shadow-seal hover:scale-[1.02] transition-transform text-center"
+            className="w-full sm:w-auto flex-1 btn-cinnabar inline-flex items-center justify-center space-x-2 px-8 py-3.5 text-xs sm:text-sm font-serif font-bold tracking-wide shadow-seal text-center"
           >
             <Compass className="w-4 h-4 stroke-[2.5]" />
-            <span>解读当下命盘</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-
-          <Link
-            href="/moment"
-            className="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-[#2A302A] text-white text-xs font-serif font-bold hover:bg-[#343C34] transition border border-[#3E473E] text-center"
-          >
-            <span>查看此刻九宫势局 &gt;</span>
+            <span>进入真实 App（解读当下命盘）</span>
+            <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
           </Link>
         </div>
       </div>
-    </div>
+
+      {/* 架构与商业谈判演示逻辑弹窗 */}
+      <ArchitectureModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        defaultTab={modalTab}
+      />
+    </>
   );
 }

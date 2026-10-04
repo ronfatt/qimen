@@ -26,12 +26,12 @@ export interface BrandConfig {
 }
 
 export const brandConfig: BrandConfig = {
-  name: "观己",
-  englishName: "GuanJi",
-  tagline: "看见自己的模式，找到值得深入了解的方向。",
-  subtitle: "从一份命盘开始，探索你的性格倾向、关系模式与当前关注。",
-  description: "以传统奇门遁甲为镜像工具，结合现代心理学与生活对话的高品质个人咨询体验。",
-  cultureNote: "命理解读属于传统文化视角，供自我探索与交流参考，不保证预测结果。",
+  name: "奇门遁甲战略决策助手",
+  englishName: "Qi Men Dun Jia Strategic Assistant",
+  tagline: "把九宫八神、九星八门的复杂时空盘，转化为商业谈判与竞争决策的清晰行动指南。",
+  subtitle: "时家奇门实时起局 · 局象自动计算 · 商业谈判与竞争策略",
+  description: "以中国正统时家奇门遁甲为底层演算模型，结合商业博弈与认知心理学，为重大商业谈判、竞争抉择与个人方向提供精准的行动战略决策系统。",
+  cultureNote: "命理与奇门时空盘属于传统数术博弈视角，供商业谈判、战略参考与心智觉察，不作绝对预测。",
   disclaimer: "本产品所有分析均作为自我觉察与生活探讨的参考视角，不提供宿命论断言、恐吓性推论或绝对预测。重要的生活抉择请结合现实理性判断。",
   contact: {
     whatsapp: "", // 保持为空以触发“联系方式待设置”，可根据实际运营配置

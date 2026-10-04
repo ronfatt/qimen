@@ -7,6 +7,7 @@ import {
   CurrentMomentAnalysis,
 } from "@/services/analysis/current-moment-service";
 import NinePalaceGrid from "@/components/chart/NinePalaceGrid";
+import ArchitectureModal from "@/components/architecture/ArchitectureModal";
 import {
   Clock,
   RotateCw,
@@ -18,12 +19,22 @@ import {
   ArrowUpRight,
   ShieldCheck,
   Zap,
+  Briefcase,
+  Play,
+  Layers,
+  Scale,
+  Users,
+  FileCheck,
 } from "lucide-react";
 
 export default function CurrentMomentPage() {
   const [analysis, setAnalysis] = useState<CurrentMomentAnalysis | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTab, setModalTab] = useState<"architecture" | "negotiation" | "pipeline">(
+    "negotiation"
+  );
 
   const fetchMomentChart = async () => {
     setRefreshing(true);
@@ -42,6 +53,16 @@ export default function CurrentMomentPage() {
     fetchMomentChart();
   }, []);
 
+  const openArchitecture = () => {
+    setModalTab("architecture");
+    setModalOpen(true);
+  };
+
+  const openDemoLogic = () => {
+    setModalTab("negotiation");
+    setModalOpen(true);
+  };
+
   if (loading || !analysis) {
     return (
       <div className="py-28 text-center space-y-3">
@@ -51,40 +72,64 @@ export default function CurrentMomentPage() {
     );
   }
 
-  const { chartResult } = analysis;
+  const { chartResult, businessStrategy } = analysis;
 
   return (
     <div className="space-y-8 pb-28 max-w-4xl mx-auto">
-      {/* 顶部标语与说明 */}
-      <div className="space-y-2 border-b border-[#E2E1DA] pb-4">
-        <div className="flex items-center justify-between">
-          <div className="inline-flex items-center space-x-2">
+      {/* 顶部标语、卡片标签与架构演示逻辑入口 */}
+      <div className="space-y-3 border-b border-[#E2E1DA] pb-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          {/* 左侧作品集标号与标签 */}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-black bg-[#131513] text-amber-200">
+              #09 奇门遁甲
+            </span>
+            <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+              ● LIVE 线上作品
+            </span>
             <span className="seal-stamp px-2 py-0.5 text-[10px] font-serif font-black">
               天时即局
             </span>
-            <span className="text-[11px] font-mono tracking-[0.2em] text-[#8C7A58] uppercase">
-              TEMPORAL ORACULAR MOMENT
-            </span>
           </div>
 
-          {/* 重新刷新起局按钮 */}
-          <button
-            onClick={fetchMomentChart}
-            disabled={refreshing}
-            className="inline-flex items-center space-x-1 px-3.5 py-1.5 rounded-full border border-[#D5D4CC] bg-white text-xs font-serif font-bold text-[#131513] hover:border-[#C92A2A] hover:text-[#C92A2A] transition disabled:opacity-50 shadow-sm"
-          >
-            <RotateCw className={`w-3.5 h-3.5 ${refreshing ? "animate-spin" : ""}`} />
-            <span>{refreshing ? "正在重新起局..." : "刷新此刻起局"}</span>
-          </button>
+          {/* 右侧动作按钮组：查看架构 ↗ | 演示逻辑 | 重新起局 */}
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={openArchitecture}
+              className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-full border border-[#D5D4CC] bg-white text-xs font-serif font-bold text-[#131513] hover:border-[#C92A2A] hover:text-[#C92A2A] transition shadow-sm"
+            >
+              <Layers className="w-3.5 h-3.5 text-[#8C7A58]" />
+              <span>点击看架构</span>
+              <ArrowUpRight className="w-3 h-3" />
+            </button>
+
+            <button
+              onClick={openDemoLogic}
+              className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-full border border-[#D5D4CC] bg-white text-xs font-serif font-bold text-[#131513] hover:border-[#C92A2A] hover:text-[#C92A2A] transition shadow-sm"
+            >
+              <Play className="w-3 h-3 text-[#C92A2A] fill-[#C92A2A]" />
+              <span>演示逻辑</span>
+            </button>
+
+            <button
+              onClick={fetchMomentChart}
+              disabled={refreshing}
+              className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-full border border-[#C92A2A] bg-[#FFF5F5] text-xs font-serif font-bold text-[#C92A2A] hover:bg-[#FFEBEB] transition disabled:opacity-50 shadow-sm"
+            >
+              <RotateCw className={`w-3.5 h-3.5 ${refreshing ? "animate-spin" : ""}`} />
+              <span>{refreshing ? "起局中..." : "刷新此刻起局"}</span>
+            </button>
+          </div>
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-serif font-black text-[#131513]">
-          当下时空命盘 · 势局与行动指引
-        </h1>
-
-        <p className="text-xs text-[#52574F] font-serif leading-relaxed">
-          根据您访问的当下一刻，自动捕捉确切时间并推演天地八字与奇门遁甲盘。洞悉当前天时气机，提供此时此刻的吉凶利弊与行动建议。
-        </p>
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-serif font-black text-[#131513]">
+            奇门遁甲战略决策助手 · 当下时空盘
+          </h1>
+          <p className="text-xs sm:text-sm text-[#52574F] font-serif leading-relaxed mt-1">
+            把九宫八神、九星八门的复杂时空盘，转化为商业谈判与竞争决策的清晰行动指南。自动捕捉访问当下的确切分秒，实时推演天地八字与奇门遁甲盘。
+          </p>
+        </div>
       </div>
 
       {/* 非个人盘性质说明条 */}
@@ -92,10 +137,10 @@ export default function CurrentMomentPage() {
         <ShieldCheck className="w-4 h-4 text-[#C92A2A] flex-shrink-0 mt-0.5" />
         <div className="space-y-0.5 text-[11px] leading-relaxed">
           <span className="font-bold text-[#131513] block">
-            【非个人出生盘 · 实时时空盘说明】
+            【非个人出生盘 · 实时时空盘与商业决策说明】
           </span>
           <p>
-            本盘反映的是<strong>此时此刻整个时空的宏观气象</strong>（天时与事态门户），用于日常问事决策、把握当前节奏、选择吉顺方位与避开冲突陷阱。若需查看您终身心智模式，请前往「探索自己」输入出生资料。
+            本盘反映的是<strong>此时此刻整个时空的宏观气象</strong>（天时与事态门户），专用于商业谈判攻防、商务洽谈、合约定夺与避开刑冲陷阱。若需查看您个人的终身心智与事业格局，请前往「探索自己」输入出生资料。
           </p>
         </div>
       </div>
@@ -155,7 +200,7 @@ export default function CurrentMomentPage() {
               <span>· {analysis.formattedLunar}</span>
             </div>
             <span className="px-2.5 py-0.5 rounded-full bg-[#131513] text-[#FAF8F2] text-xs font-serif font-bold">
-              实时正局
+              时家转盘拆补局
             </span>
           </div>
 
@@ -226,12 +271,131 @@ export default function CurrentMomentPage() {
         <NinePalaceGrid palaces={chartResult.palaces} />
       </section>
 
-      {/* D. 方位地利吉凶指引 (东方对比双栏) */}
+      {/* D. NEW: 商业谈判与竞争决策行动矩阵 (STRATEGIC NEGOTIATION MATRIX) */}
+      <section className="clean-card p-6 sm:p-8 shadow-card space-y-6 bg-white border border-[#D9CEB2]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#EAE9E1] pb-3">
+          <div className="flex items-center space-x-2.5">
+            <div className="w-8 h-8 rounded-xl bg-[#FFF5F5] border border-[#C92A2A] flex items-center justify-center text-[#C92A2A]">
+              <Briefcase className="w-4 h-4" />
+            </div>
+            <div>
+              <h2 className="text-lg font-serif font-black text-[#131513]">
+                D. 商业谈判与竞争决策行动矩阵
+              </h2>
+              <span className="text-[11px] font-mono text-[#8C7A58] uppercase">
+                STRATEGIC NEGOTIATION MATRIX · 商业博弈实操法则
+              </span>
+            </div>
+          </div>
+
+          <button
+            onClick={openDemoLogic}
+            className="self-start sm:self-auto text-xs font-serif text-[#C92A2A] hover:underline flex items-center space-x-1"
+          >
+            <span>查看演示逻辑推导</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* 1. 主客动向律 */}
+          <div className="p-5 rounded-2xl bg-[#FAF9F5] border border-[#E5DEC9] space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Scale className="w-4 h-4 text-[#C92A2A]" />
+                <span className="font-serif font-black text-sm text-[#131513]">
+                  1. 主客动向律（先发 vs 后发）
+                </span>
+              </div>
+              <span className="px-2 py-0.5 rounded text-[10px] font-serif font-bold bg-[#131513] text-amber-200">
+                {businessStrategy.hostGuestPrinciple.status.includes("主方") ? "宜为主" : "宜为客"}
+              </span>
+            </div>
+
+            <div className="p-2.5 rounded-xl bg-white border border-[#E4E3DB] text-xs font-serif font-bold text-[#C92A2A]">
+              核心战术：{businessStrategy.hostGuestPrinciple.tactic}
+            </div>
+
+            <p className="text-[11px] text-[#52574F] font-serif leading-relaxed">
+              {businessStrategy.hostGuestPrinciple.actionDetail}
+            </p>
+          </div>
+
+          {/* 2. 谈判坐席地利学 */}
+          <div className="p-5 rounded-2xl bg-[#FAF9F5] border border-[#E5DEC9] space-y-3">
+            <div className="flex items-center space-x-2">
+              <Compass className="w-4 h-4 text-[#0C5A43]" />
+              <span className="font-serif font-black text-sm text-[#131513]">
+                2. 谈判坐席地利学（背生向死）
+              </span>
+            </div>
+
+            <div className="p-2.5 rounded-xl bg-[#EBF5F1] border border-[#BCE1D4] text-xs font-serif font-bold text-[#0C5A43]">
+              优选坐席：{businessStrategy.negotiationSeating.favorableDirection}
+            </div>
+
+            <p className="text-[11px] text-[#52574F] font-serif leading-relaxed">
+              {businessStrategy.negotiationSeating.tacticalRationale}
+            </p>
+
+            <div className="text-[10px] text-[#A63636] font-serif pt-1 border-t border-[#EAE9E1]">
+              ⚠️ 禁忌提醒：{businessStrategy.negotiationSeating.tabooDirection}
+            </div>
+          </div>
+
+          {/* 3. 对手心理防线与隐秘软肋 */}
+          <div className="p-5 rounded-2xl bg-[#FAF9F5] border border-[#E5DEC9] space-y-3">
+            <div className="flex items-center space-x-2">
+              <Users className="w-4 h-4 text-[#8C7A58]" />
+              <span className="font-serif font-black text-sm text-[#131513]">
+                3. 对手心理防线与破局抓手
+              </span>
+            </div>
+
+            <div className="p-2.5 rounded-xl bg-white border border-[#E4E3DB] text-xs space-y-1">
+              <span className="text-[10px] font-mono text-[#8C7A58] block">心理透视：</span>
+              <p className="text-[11px] text-[#2C302B] font-serif leading-relaxed">
+                {businessStrategy.counterpartInsight.psychologicalRead}
+              </p>
+            </div>
+
+            <div className="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200/80 text-xs space-y-1">
+              <span className="text-[10px] font-serif font-bold text-[#8C7A58] block">破局抓手：</span>
+              <p className="text-[11px] text-[#423821] font-serif leading-relaxed">
+                {businessStrategy.counterpartInsight.leveragePoint}
+              </p>
+            </div>
+          </div>
+
+          {/* 4. 合同签约时机判定 */}
+          <div className="p-5 rounded-2xl bg-[#FAF9F5] border border-[#E5DEC9] space-y-3">
+            <div className="flex items-center space-x-2">
+              <FileCheck className="w-4 h-4 text-[#C92A2A]" />
+              <span className="font-serif font-black text-sm text-[#131513]">
+                4. 签约时机与合约定夺
+              </span>
+            </div>
+
+            <div className="p-2.5 rounded-xl bg-white border border-[#E4E3DB] text-xs font-serif font-bold text-[#131513] flex items-center justify-between">
+              <span>气机氛围：</span>
+              <span className="px-2 py-0.5 rounded text-[10px] bg-[#131513] text-white">
+                {businessStrategy.dealTiming.signingAtmosphere}
+              </span>
+            </div>
+
+            <p className="text-[11px] text-[#52574F] font-serif leading-relaxed">
+              {businessStrategy.dealTiming.advice}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* E. 方位地利吉凶指引 (东方对比双栏) */}
       <section className="clean-card p-6 sm:p-7 shadow-card space-y-4 bg-white">
         <div className="flex items-center space-x-2 border-b border-[#EAE9E1] pb-3">
           <Compass className="w-4 h-4 text-[#C92A2A]" />
           <h2 className="text-lg font-serif font-black text-[#131513]">
-            D. 此刻方位地利与吉凶指引
+            E. 此刻方位地利与吉凶指引
           </h2>
         </div>
 
@@ -280,12 +444,12 @@ export default function CurrentMomentPage() {
         </div>
       </section>
 
-      {/* E. 当下行动策略与宜忌指南 */}
+      {/* F. 当下行动策略与宜忌指南 */}
       <section className="clean-card p-6 sm:p-7 shadow-card space-y-5 bg-white">
         <div className="flex items-center space-x-2 border-b border-[#EAE9E1] pb-3">
           <Zap className="w-4 h-4 text-[#C92A2A]" />
           <h2 className="text-lg font-serif font-black text-[#131513]">
-            E. 当下处事策略与行动宜忌
+            F. 当下处事策略与行动宜忌
           </h2>
         </div>
 
@@ -340,7 +504,7 @@ export default function CurrentMomentPage() {
         </div>
       </section>
 
-      {/* F. 连接个人盘与老师咨询 */}
+      {/* G. 连接个人盘与老师咨询 */}
       <section className="rounded-3xl p-7 sm:p-9 shadow-2xl space-y-5 bg-[#131513] text-white border border-[#2D3028]">
         <div className="space-y-2">
           <span className="text-[10px] font-mono tracking-widest text-[#C92A2A] font-bold uppercase">
@@ -370,6 +534,13 @@ export default function CurrentMomentPage() {
           </Link>
         </div>
       </section>
+
+      {/* 架构与商业谈判演示逻辑弹窗 */}
+      <ArchitectureModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        defaultTab={modalTab}
+      />
     </div>
   );
 }
