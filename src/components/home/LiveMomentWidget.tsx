@@ -173,15 +173,16 @@ export default function LiveMomentWidget() {
             <span>演示逻辑</span>
           </button>
 
-          {/* 进入真实 App ↗ (即进入 /moment 实时当下盘) */}
-          <Link
-            href="/moment"
-            className="w-full sm:w-auto flex-1 btn-cinnabar inline-flex items-center justify-center space-x-2 px-8 py-3.5 text-xs sm:text-sm font-serif font-bold tracking-wide shadow-seal text-center"
+          {/* 进入真实 App ↗ */}
+          <a
+            href="https://qimen-pi.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto flex-1 inline-flex items-center justify-center space-x-2 px-8 py-3.5 rounded-2xl bg-[#0B0D0B] hover:bg-[#1A1F1A] text-white text-xs sm:text-sm font-serif font-bold tracking-wide border border-[#3E473E] shadow-seal text-center transition group"
           >
-            <Compass className="w-4 h-4 stroke-[2.5]" />
-            <span>进入真实 App（解读当下命盘）</span>
-            <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
-          </Link>
+            <span>进入真实 App</span>
+            <ArrowUpRight className="w-4 h-4 text-emerald-400 stroke-[2.5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </a>
         </div>
       </div>
 
