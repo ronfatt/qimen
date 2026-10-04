@@ -219,12 +219,27 @@ export default function ReportDetailPage() {
           </div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-[#FAF9F5] border border-[#EAE9E1] text-[11px] font-mono text-[#5C6057] space-y-1">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <span>四柱干支：{chartResult.fourPillars.year}年 {chartResult.fourPillars.month}月 {chartResult.fourPillars.day}日 {chartResult.fourPillars.hour}时</span>
-            <span className="font-bold text-[#111211]">{chartResult.juNumber}</span>
+        <div className="p-4 rounded-2xl bg-[#FAF9F5] border border-[#EAE9E1] text-[11px] font-mono text-[#5C6057] space-y-2">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAE9E1] pb-2">
+            <span className="font-bold text-[#131513]">
+              四柱干支：{chartResult.fourPillars.year}年 {chartResult.fourPillars.month}月 {chartResult.fourPillars.day}日 {chartResult.fourPillars.hour}
+              {chartResult.fourPillars.hour !== "时柱未定" && !chartResult.fourPillars.hour.endsWith("时") ? "时" : ""}
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full bg-[#131513] text-[#FAF8F2] font-serif font-bold text-xs">
+              {chartResult.juNumber}
+            </span>
           </div>
-          <div>校正说明：{chartResult.engineMetadata.timeAdjustmentNote}</div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-[11px] text-[#454942]">
+            <div>农历交节：{chartResult.lunarDateFormatted}</div>
+            <div>领袖首领：{chartResult.zhiFu} · {chartResult.zhiShi}</div>
+            <div>空亡位：{chartResult.kongWang?.join("、") || "无"}</div>
+            <div>驿马位：{chartResult.yiMa || "无"}</div>
+          </div>
+
+          <div className="pt-1 text-[10px] text-[#8C9087] border-t border-[#F0EFE8]">
+            校正说明：{chartResult.engineMetadata.timeAdjustmentNote}
+          </div>
         </div>
       </section>
 
