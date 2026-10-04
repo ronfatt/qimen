@@ -11,6 +11,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
+    { href: "/moment", label: "当下命盘" },
     { href: "/assessment", label: "探索自己" },
     { href: "/my-reports", label: "我的报告" },
     { href: "/teachers", label: "导师名录" },

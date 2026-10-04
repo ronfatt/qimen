@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Compass } from "lucide-react";
 import OrientalCompassMatrix from "@/components/home/OrientalCompassMatrix";
+import LiveMomentWidget from "@/components/home/LiveMomentWidget";
 
 export default function HomePage() {
   return (
@@ -32,25 +33,33 @@ export default function HomePage() {
 
             {/* Subtitle */}
             <p className="text-sm sm:text-base text-[#52574F] max-w-lg font-serif leading-relaxed">
-              从奇门命盘出发，探索你的性格倾向、关系模式与当前关注。
+              从奇门命盘出发，探索你的性格倾向、关系模式与当前关注。亦可随时洞悉当下天地气场与行动指南。
             </p>
 
             {/* Action Buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
                 href="/assessment"
                 className="btn-cinnabar inline-flex items-center space-x-1 px-8 py-3.5 text-sm font-serif font-bold tracking-wide"
               >
-                <span>开始免费分析</span>
+                <span>开始个人分析</span>
                 <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
               </Link>
 
               <Link
+                href="/moment"
+                className="inline-flex items-center space-x-2 px-6 py-3.5 rounded-full border border-[#C92A2A] bg-white text-xs sm:text-sm font-serif font-bold text-[#C92A2A] hover:bg-[#FFF5F5] transition shadow-sm"
+              >
+                <Compass className="w-4 h-4 stroke-[2.5]" />
+                <span>解读当下命盘</span>
+              </Link>
+
+              <Link
                 href="/report/sample"
-                className="inline-flex items-center space-x-1.5 text-xs sm:text-sm font-serif font-bold text-[#131513] hover:text-[#C92A2A] transition px-3 py-2"
+                className="inline-flex items-center space-x-1 text-xs font-serif font-bold text-[#767973] hover:text-[#C92A2A] transition px-3 py-2"
               >
                 <span>查看示例报告</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
@@ -91,11 +100,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. Section: "你想先了解哪一面？" (Bold Oriental Cards) */}
+      {/* 3. NEW: 当下命盘实时解读卡片 (非个人盘 · 实时秒级天时时空局) */}
+      <section>
+        <LiveMomentWidget />
+      </section>
+
+      {/* 4. Section: "你想先了解哪一面？" (Bold Oriental Cards) */}
       <section className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl sm:text-3xl font-serif font-black text-[#131513] tracking-tight">
-            你想先了解哪一面？
+            探索你的个人命盘
           </h2>
           <span className="seal-stamp text-[10px] px-2 py-0.5 font-serif font-bold hidden sm:inline-flex">
             问津之门
